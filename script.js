@@ -2,28 +2,28 @@ const projects = [
   {
     name: 'Ulises I',
     location: 'Ayacucho 3230 · Mar del Plata',
-    image: './assets/ulises-1.webp',
+    image: './ulises-1.webp',
     imageAlt: 'Render de la fachada de Ulises I',
     description: 'Un edificio de líneas sobrias, balcones verdes y vistas abiertas a la ciudad. Unidades pensadas para vivir cerca de todo.',
   },
   {
     name: 'Ulises II',
     location: 'La Perla · Mar del Plata',
-    image: './assets/ulises-2.webp',
+    image: './ulises-2.webp',
     imageAlt: 'Render de la fachada de Ulises II',
     description: 'A pasos del mar, en el entorno de La Perla. Espacios luminosos y terminaciones cuidadas para vivir o invertir.',
   },
   {
     name: 'Ulises III',
     location: 'Calle España · Mar del Plata',
-    image: './assets/ulises-3.webp',
+    image: './ulises-3.webp',
     imageAlt: 'Render de la fachada de Ulises III',
     description: 'En un barrio residencial y consolidado. Departamentos funcionales con la calidad y el respaldo de cada obra Arkhos.',
   },
   {
     name: 'Ulises IV',
     location: 'Mar del Plata',
-    image: './assets/ulises-4.webp',
+    image: './ulises-4.webp',
     imageAlt: 'Render de la fachada de Ulises IV',
     description: 'La nueva etapa de la serie Ulises: diseño, ubicación y respaldo en un proyecto que ya está en marcha.',
   },
@@ -292,7 +292,7 @@ let galleryClosing = false;
 let bodyOverflowBeforeGallery = '';
 
 function galleryImagePath(fileName) {
-  return `./assets/delivered/${fileName}`;
+  return `./${fileName}`;
 }
 
 function renderGalleryPhoto() {
