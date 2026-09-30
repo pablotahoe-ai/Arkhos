@@ -1,0 +1,26 @@
+# Publica la web en Wiredhosting (desarrollos.grupoarkhos.com.ar) cada vez que se suben cambios.
+# Solo escribe dentro de la carpeta del subdominio. El WordPress (public_html) nunca se toca.
+name: Publicar en Wiredhosting
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ./desarrollos.grupoarkhos.com.ar/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            README.md
+            *.zip
