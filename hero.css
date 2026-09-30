@@ -136,3 +136,7 @@ html.intro-locked .site-header{opacity:0;pointer-events:none}
 
 /* La línea del edificio ya muestra nombre, dirección y Mar del Plata: el bloque final se oculta para no duplicar */
 .intro__info{display:none}
+
+/* Enlace activo a Romina Ducid */
+a.nav-external{opacity:1;cursor:pointer;text-decoration:none;transition:border-color .4s,color .4s}
+a.nav-external:hover{border-color:var(--gold);color:var(--gold)}
