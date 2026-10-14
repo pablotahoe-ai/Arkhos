@@ -152,3 +152,26 @@ html{scroll-snap-type:none}
 .draw__again{border:0;background:none;padding:0 0 6px;border-bottom:1px solid #9aa0a3;color:#6f7478;font-size:10.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;cursor:pointer}
 .draw__again:hover{color:var(--ink);border-color:var(--ink)}
 @media(max-width:900px){.contact__grid{grid-template-columns:1fr}.draw__paper,.draw__ground{width:100%}}
+
+/* ===== v20 — Valores: lista vertical a la derecha (como antes) + dibujo de fondo bajo el texto ===== */
+.about__grid{grid-template-columns:minmax(0,6fr) minmax(0,5fr);align-items:center}
+.about__left h2{font-size:min(clamp(24px,2.2vw,36px),4.2vh);margin-bottom:min(12px,1.4vh)}
+.about__lead{font-size:min(13.5px,1.75vh);margin-bottom:min(20px,2.4vh);max-width:480px}
+.about__value{position:relative;padding-top:min(18px,2vh)}
+.about__value-row{display:block;position:relative}
+.about .vg__num{font-size:min(clamp(44px,4vw,68px),7.5vh);margin-bottom:min(10px,1.2vh)}
+.about .vg__text{position:relative;z-index:1;font-size:min(clamp(18px,1.5vw,24px),3vh);max-width:480px}
+.about .vg__sketch{position:relative;z-index:0;display:block;width:100%;max-width:560px;height:min(34vh,330px);margin:min(6px,1vh) 0 0;opacity:.55;pointer-events:none}
+.about .vg__sketch img{width:100%;height:100%;object-fit:contain;object-position:left center;mix-blend-mode:multiply}
+.about .vg__list{display:block;padding:0;border-left:1px solid #cbc5b6;border-bottom:0}
+.about .vg__item{display:flex;align-items:baseline;gap:22px;padding:min(1.6vh,16px) 0 min(1.6vh,16px) 36px;opacity:.26}
+.about .vg__item:after{display:none!important}
+.about .vg__item:before{display:block}
+.about .vg__item.is-active{opacity:1;transform:translateX(12px)!important}
+.about .vg__item.is-active h3{color:var(--ink)}
+.about .vg__i{display:inline}
+.about .vg__item h3{font-size:min(clamp(30px,3.1vw,52px),6.4vh)}
+@media(max-width:900px){.about .vg__sketch{height:24vh}}
+
+/* v21 — el encaje lo maneja el JS en PC */
+html{scroll-snap-type:none!important;scroll-behavior:auto!important}

@@ -858,12 +858,12 @@ function markCells(x, y, radius) {
     const key = `${i},${j}`;
     if (drawCells.list.has(key)) drawCovered.add(key);
   }
-  const p = Math.min(1, drawCovered.size / (drawCells.list.size * .3));
+  const p = Math.min(1, drawCovered.size / (drawCells.list.size * .85));
   drawMeter.style.transform = `scaleX(${p})`;
   if (p >= 1 && !drawFinished) finishDraw();
 }
 function strokeTo(x, y) {
-  const brush = Math.max(30, drawW * .07);
+  const brush = Math.max(34, drawW * .085);
   maskCtx.lineCap = 'round'; maskCtx.lineJoin = 'round';
   maskCtx.strokeStyle = '#000'; maskCtx.lineWidth = brush;
   maskCtx.beginPath();
@@ -977,3 +977,89 @@ document.querySelectorAll('.lang button').forEach(btn => btn.addEventListener('c
   currentLang = saved && I18N[saved] ? saved : 'es';
   applyTranslations();
 })();
+
+// ===== Encaje por secciones (PC): cada movimiento de la rueda lleva a la siguiente parada y la sección queda encajada =====
+const snapQuery = window.matchMedia('(min-width: 901px) and (hover: hover)');
+let snapStops = [];
+let snapAnimating = false;
+let snapCooldown = 0;
+const docTop = el => el.getBoundingClientRect().top + window.scrollY;
+
+function buildSnapStops() {
+  const H = window.innerHeight;
+  const stops = [];
+  // Hero: portada, recuadro abierto y anochecer (la animación se ve mientras se desliza).
+  const introTravel = intro.offsetHeight - H;
+  [0, .44, .97].forEach(p => stops.push(docTop(intro) + introTravel * p));
+  stops.push(docTop(document.querySelector('#desarrollos')));
+  stops.push(docTop(document.querySelector('#entregadas')));
+  // Quiénes somos: una parada por valor.
+  const pinTop = docTop(aboutPin);
+  const pinTravel = aboutPin.offsetHeight - H;
+  const n = valueItems.length;
+  for (let i = 0; i < n; i++) stops.push(pinTop + pinTravel * ((i + .5) / (n * 1.08)));
+  stops.push(docTop(document.querySelector('.manifesto-screen')));
+  stops.push(docTop(document.querySelector('#contacto')));
+  stops.push(document.documentElement.scrollHeight - H);
+  snapStops = stops.map(v => Math.round(Math.max(0, v))).sort((a, b) => a - b).filter((v, i, a) => i === 0 || v - a[i - 1] > 4);
+}
+
+function snapTo(target) {
+  snapAnimating = true;
+  const from = window.scrollY;
+  const dist = target - from;
+  const duration = Math.min(1300, 650 + Math.abs(dist) * .25);
+  const start = performance.now();
+  const ease = t => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const step = now => {
+    const t = Math.min(1, (now - start) / duration);
+    window.scrollTo(0, from + dist * ease(t));
+    if (t < 1) requestAnimationFrame(step);
+    else { snapAnimating = false; snapCooldown = performance.now() + 260; }
+  };
+  requestAnimationFrame(step);
+}
+
+function snapMove(dir) {
+  if (!snapStops.length) buildSnapStops();
+  const y = window.scrollY;
+  let target;
+  if (dir > 0) target = snapStops.find(s => s > y + 4);
+  else target = [...snapStops].reverse().find(s => s < y - 4);
+  if (target === undefined) return;
+  snapTo(target);
+}
+
+const snapBlocked = () => !snapQuery.matches || !introOpened || dialog.open || gallery.open;
+
+window.addEventListener('wheel', event => {
+  if (snapBlocked()) return;
+  event.preventDefault();
+  if (snapAnimating || performance.now() < snapCooldown) return;
+  if (Math.abs(event.deltaY) < 4) return;
+  snapMove(event.deltaY > 0 ? 1 : -1);
+}, { passive: false });
+
+window.addEventListener('keydown', event => {
+  if (snapBlocked()) return;
+  const tag = (document.activeElement && document.activeElement.tagName) || '';
+  if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
+  const down = ['ArrowDown', 'PageDown', ' '].includes(event.key);
+  const up = ['ArrowUp', 'PageUp'].includes(event.key);
+  if (!down && !up) return;
+  if (dev.contains(document.activeElement)) return; // la rueda usa las flechas
+  event.preventDefault();
+  if (!snapAnimating) snapMove(down ? 1 : -1);
+});
+
+// Los enlaces del menú también llevan al inicio exacto de cada sección.
+document.querySelectorAll('.main-nav a[href^="#"], .footer-inner a[href^="#"]').forEach(link => link.addEventListener('click', event => {
+  if (!snapQuery.matches) return;
+  const target = document.querySelector(link.getAttribute('href'));
+  if (!target) return;
+  event.preventDefault();
+  setTimeout(() => { buildSnapStops(); snapTo(Math.round(docTop(target))); }, 30);
+}));
+
+window.addEventListener('resize', () => { snapStops = []; });
+window.addEventListener('load', buildSnapStops);
