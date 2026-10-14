@@ -1,62 +1,101 @@
+let currentLang = 'es';
+const T = () => I18N[currentLang];
+const WA_BASE = `https://wa.me/${WHATSAPP_NUMBER}`;
+const waLink = text => `${WA_BASE}?text=${encodeURIComponent(text)}`;
+
+// Brochures: pegar acá el link de Google Drive de cada uno (vacío = "disponible pronto").
 const projects = [
-  {
-    name: 'Ulises I',
-    location: 'Ayacucho 3230 · Mar del Plata',
-    image: './ulises-1.webp',
-    imageAlt: 'Render de la fachada de Ulises I',
-    description: 'Un edificio de líneas sobrias, balcones verdes y vistas abiertas a la ciudad. Unidades pensadas para vivir cerca de todo.',
-  },
-  {
-    name: 'Ulises II',
-    location: 'La Perla · Mar del Plata',
-    image: './ulises-2.webp',
-    imageAlt: 'Render de la fachada de Ulises II',
-    description: 'A pasos del mar, en el entorno de La Perla. Espacios luminosos y terminaciones cuidadas para vivir o invertir.',
-  },
-  {
-    name: 'Ulises III',
-    location: 'Calle España · Mar del Plata',
-    image: './ulises-3.webp',
-    imageAlt: 'Render de la fachada de Ulises III',
-    description: 'En un barrio residencial y consolidado. Departamentos funcionales con la calidad y el respaldo de cada obra Arkhos.',
-  },
-  {
-    name: 'Ulises IV',
-    location: 'Mar del Plata',
-    image: './ulises-4.webp',
-    imageAlt: 'Render de la fachada de Ulises IV',
-    description: 'La nueva etapa de la serie Ulises: diseño, ubicación y respaldo en un proyecto que ya está en marcha.',
-  },
+  { name: 'Ulises I',   address: 'Ayacucho 3230',  area: 'La Perla', image: './ulises-1.webp', imageAlt: 'Render de la fachada de Ulises I',   brochure: '', soon: false },
+  { name: 'Ulises II',  address: 'Salta 714',      area: 'La Perla', image: './ulises-2.webp', imageAlt: 'Render de la fachada de Ulises II',  brochure: '', soon: false },
+  { name: 'Ulises III', address: 'España 1041',    area: 'La Perla', image: './ulises-3.webp', imageAlt: 'Render de la fachada de Ulises III', brochure: '', soon: false },
+  { name: 'Ulises IV',  address: 'Entre Ríos 2641', area: 'Chauvin', image: './ulises-4.webp', imageAlt: 'Render de la fachada de Ulises IV',  brochure: '', soon: true },
+];
+projects.forEach(p => { p.location = `${p.address} · Mar del Plata`; });
+const projectDescription = i => T().dev.projects[i];
+
+// Bocetos a lápiz para cada valor (SVG en línea). Se dibujan con un leve "temblor" de trazo.
+const PENCIL = '<defs><filter id="pencil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter></defs>';
+const SKETCHES = [
+  // 01 Transparencia: fachada vidriada con luz, y una planilla con todo a la vista.
+  `<svg viewBox="0 0 300 190" aria-hidden="true">${PENCIL}<g filter="url(#pencil)">
+    <path class="pencil" d="M42 168 V46 l48 -14 v136"/><path class="pencil" d="M42 168 H90"/>
+    <path class="pencil pencil--soft" d="M54 60 v96 M66 56 v100 M78 52 v104 M42 80 l48 -12 M42 104 l48 -12 M42 128 l48 -12 M42 152 l48 -12"/>
+    <path class="pencil pencil--gold" d="M112 34 l20 -16 M118 52 l26 -8 M110 20 l10 -16"/>
+    <path class="pencil" d="M166 58 h98 v100 h-98 z"/><path class="pencil pencil--soft" d="M186 52 h58 v12 h-58 z"/>
+    <path class="pencil pencil--soft" d="M184 86 h60 M184 106 h60 M184 126 h44"/>
+    <path class="pencil pencil--gold" d="M176 84 l4 5 7 -9 M176 104 l4 5 7 -9 M176 124 l4 5 7 -9"/>
+    <path class="pencil pencil--soft" d="M30 172 h250"/></g></svg>`,
+  // 02 Compromiso: el plano firmado y el casco de obra.
+  `<svg viewBox="0 0 300 190" aria-hidden="true">${PENCIL}<g filter="url(#pencil)">
+    <path class="pencil" d="M58 42 l150 -6 l4 118 l-150 6 z"/>
+    <path class="pencil pencil--soft" d="M78 62 h50 v36 h-50 z M136 60 h52 v22 h-52 z M136 90 h52 v28 h-52 z M78 106 h50 v26 h-50 z M103 62 v36"/>
+    <path class="pencil pencil--gold" d="M84 146 c10 -16 14 4 22 -8 s10 10 20 -6 s12 8 24 -4 s10 6 18 -2"/>
+    <path class="pencil" d="M196 122 l30 -34 l8 6 l-30 34 z M226 88 l6 -7 l8 6 l-6 7"/>
+    <path class="pencil" d="M222 170 c0 -22 16 -38 38 -38 s38 16 38 38 z"/><path class="pencil pencil--soft" d="M214 170 h92 M260 132 v-8"/>
+    <path class="pencil pencil--soft" d="M30 176 h250"/></g></svg>`,
+  // 03 Cercanía: una mesa, dos sillas, dos cafés. Una charla.
+  `<svg viewBox="0 0 300 190" aria-hidden="true">${PENCIL}<g filter="url(#pencil)">
+    <path class="pencil" d="M80 100 c0 -18 32 -30 70 -30 s70 12 70 30 s-32 30 -70 30 s-70 -12 -70 -30 z"/>
+    <path class="pencil pencil--soft" d="M150 130 v40 M118 168 h64"/>
+    <path class="pencil" d="M118 96 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M136 94 c6 -2 8 6 2 8"/>
+    <path class="pencil" d="M164 104 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M182 102 c6 -2 8 6 2 8"/>
+    <path class="pencil pencil--gold" d="M124 80 c-2 -6 2 -8 0 -14 M130 80 c-2 -6 2 -8 0 -14 M170 88 c-2 -6 2 -8 0 -14"/>
+    <path class="pencil" d="M30 70 h26 v60 h-26 M30 70 v-30 h26 v30 M232 78 h26 v60 h-26 M232 78 v-30 h26 v30"/>
+    <path class="pencil pencil--soft" d="M20 176 h260"/></g></svg>`,
+  // 04 Calidad: hiladas de ladrillo bien aplomadas y el nivel de burbuja.
+  `<svg viewBox="0 0 300 190" aria-hidden="true">${PENCIL}<g filter="url(#pencil)">
+    <path class="pencil" d="M40 170 h220 M40 150 h220 M40 130 h220 M40 110 h220 M40 90 h220 M40 170 v-80 M260 170 v-80"/>
+    <path class="pencil pencil--soft" d="M84 150 v20 M128 150 v20 M172 150 v20 M216 150 v20 M62 130 v20 M106 130 v20 M150 130 v20 M194 130 v20 M238 130 v20 M84 110 v20 M128 110 v20 M172 110 v20 M216 110 v20 M62 90 v20 M106 90 v20 M150 90 v20 M194 90 v20 M238 90 v20"/>
+    <path class="pencil" d="M60 86 h180 a6 6 0 0 1 6 6 v12 a6 6 0 0 1 -6 6 h-180 a6 6 0 0 1 -6 -6 v-12 a6 6 0 0 1 6 -6 z"/>
+    <path class="pencil" d="M132 82 h36 v26 h-36 z"/><path class="pencil pencil--gold" d="M144 90 a6 5 0 1 0 12 0 a6 5 0 1 0 -12 0"/>
+    <path class="pencil pencil--soft" d="M150 60 v18 M150 60 l-6 8 M150 60 l6 8"/></g></svg>`,
+  // 05 Respaldo: la llave con el llavero de la obra. La relación sigue después de la entrega.
+  `<svg viewBox="0 0 300 190" aria-hidden="true">${PENCIL}<g filter="url(#pencil)">
+    <path class="pencil" d="M78 96 a26 26 0 1 0 52 0 a26 26 0 1 0 -52 0 M94 96 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0"/>
+    <path class="pencil" d="M130 96 h100 v12 h-14 v10 h-10 v-10 h-14 v12 h-10 v-12 h-52"/>
+    <path class="pencil pencil--soft" d="M104 70 c-6 -14 -4 -26 8 -34 c12 -8 24 -2 30 10"/>
+    <path class="pencil" d="M178 28 h50 v68 h-50 z M178 28 l25 -14 l25 14"/>
+    <path class="pencil pencil--soft" d="M188 42 h8 v8 h-8 z M210 42 h8 v8 h-8 z M188 60 h8 v8 h-8 z M210 60 h8 v8 h-8 z M188 78 h8 v8 h-8 z M210 78 h8 v8 h-8 z"/>
+    <path class="pencil pencil--gold" d="M142 52 c0 -8 10 -8 10 0 M152 52 c0 10 -10 10 -10 0"/>
+    <path class="pencil pencil--soft" d="M40 160 h220"/></g></svg>`,
 ];
 
 const delivered = [
   { name: 'Lipari Libertad', photos: ['libertad-1.webp', 'libertad-2.webp', 'libertad-3.webp'] },
   { name: 'Lipari La Rioja', photos: ['rioja-1.webp', 'rioja-2.webp', 'rioja-3.webp'] },
   { name: 'Lipari Perla', photos: ['perla-1.webp', 'perla-2.webp', 'perla-3.webp'] },
-  { name: 'Quiroga', photos: [] },
+  { name: 'KIRON', photos: [] },
 ];
 
-const values = [
-  { name: 'Transparencia', detail: 'Información clara en cada etapa: avances de obra, plazos y decisiones compartidas con quienes invierten. Sin letra chica.' },
-  { name: 'Compromiso', detail: 'Estamos en la obra y en las decisiones. Lo que firmamos es lo que construimos, y lo que construimos es lo que entregamos.' },
-  { name: 'Cercanía', detail: 'Un trato directo, sin intermediarios. Cada cliente sabe con quién hablar y siempre recibe una respuesta.' },
-  { name: 'Calidad', detail: 'Cuidamos el diseño, los materiales y la forma de habitar cada unidad. Edificios pensados para durar en Mar del Plata.' },
-  { name: 'Respaldo', detail: 'La relación no termina con la entrega de llaves. Seguimos presentes después, porque cada obra lleva nuestro nombre.' },
-];
+const values = I18N.es.about.values.map((v, i) => ({ index: i }));
 
 const deliveredContainer = document.querySelector('#delivered-tracks');
 const valuesContainer = document.querySelector('#values-list');
 const dialog = document.querySelector('#project-dialog');
 
+const dialogBrochure = document.querySelector('#dialog-brochure');
+const dialogWa = document.querySelector('#dialog-wa');
+let dialogProject = null;
 function openProjectDialog(project) {
+  dialogProject = project;
+  const i = projects.indexOf(project);
   document.querySelector('.dialog-image').hidden = false;
   document.querySelector('#dialog-img').src = project.image;
   document.querySelector('#dialog-img').alt = project.imageAlt;
-  document.querySelector('#dialog-status').textContent = 'Desarrollo / En curso';
+  document.querySelector('#dialog-status').textContent = project.soon ? `${T().dev.status} · ${T().dev.soon}` : T().dev.status;
   document.querySelector('#dialog-title').textContent = project.name;
-  document.querySelector('#dialog-description').textContent = project.description;
+  document.querySelector('#dialog-address').textContent = `${project.address} · ${project.area} · Mar del Plata`;
+  document.querySelector('#dialog-description').textContent = projectDescription(i);
+  dialogBrochure.href = project.brochure || '#';
+  dialogBrochure.classList.toggle('is-pending', !project.brochure);
+  dialogWa.href = waLink(`${T().contact.waProject} ${project.name}.`);
   dialog.showModal();
 }
+dialogBrochure.addEventListener('click', event => {
+  if (!dialogProject || dialogProject.brochure) return;
+  event.preventDefault();
+  showToast(T().dialog.noBrochure);
+});
 
 // 01 — Rueda de desarrollos: la sección queda fija y al bajar la rueda gira; el activo queda al frente.
 const dev = document.querySelector('.dev');
@@ -131,15 +170,16 @@ function wedgePath(cx, cy, r1, r2, a0, a1) {
 }
 
 let devActive = -1;
-function setDevActive(i) {
-  if (i === devActive) return;
+function setDevActive(i, force = false) {
+  if (i === devActive && !force) return;
   const first = devActive === -1;
   devActive = i;
   const project = projects[i];
   devIndex.textContent = String(i + 1).padStart(2, '0');
   devName.textContent = project.name;
-  devDesc.textContent = project.description;
+  devDesc.textContent = projectDescription(i);
   devLocation.textContent = project.location;
+  document.querySelector('#dev-badge').textContent = project.soon ? T().dev.soon : '';
   if (!first) [devIndex, devName, devLocation, devDesc].forEach((el, n) => el.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 900, delay: n * 60, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' }));
 }
 document.querySelector('#dev-cta').addEventListener('click', () => openProjectDialog(projects[Math.max(0, devActive)]));
@@ -209,20 +249,20 @@ const devControls = document.querySelector('.dev__controls');
 const devBtns = [...devControls.querySelectorAll('.dev__btn')];
 function renderDevControls(cx, cy, r1, baseAngle) {
   devControls.setAttribute('viewBox', `0 0 ${devSticky.clientWidth} ${devSticky.clientHeight}`);
-  const outer = r1 - 20;
-  const inner = r1 - 20 - Math.max(38, r1 * .15);
+  const outer = r1 - 14;
+  const inner = outer - Math.max(30, r1 * .12);
   const deg = Math.PI / 180;
   devBtns.forEach(btn => {
     const dir = Number(btn.dataset.dir);
-    const a0 = baseAngle + dir * 24 * deg;
-    const a1 = baseAngle + dir * 62 * deg;
+    const a0 = baseAngle + dir * 27 * deg;
+    const a1 = baseAngle + dir * 57 * deg;
     btn.querySelector('.dev__btn-shape').setAttribute('d', dir < 0 ? wedgePath(cx, cy, inner, outer, a1, a0) : wedgePath(cx, cy, inner, outer, a0, a1));
     const am = (a0 + a1) / 2;
     const [ix, iy] = polar(cx, cy, (inner + outer) / 2, am);
     // Flecha curva que sigue el aro, en el sentido del giro.
     const rm = (inner + outer) / 2;
     // Anterior: gira hacia arriba (ángulo decreciente). Siguiente: hacia abajo (ángulo creciente).
-    const half = Math.abs(a1 - a0) * .32;
+    const half = Math.abs(a1 - a0) * .26;
     const from = dir < 0 ? am + half : am - half;
     const to = dir < 0 ? am - half : am + half;
     const [fx, fy] = polar(cx, cy, rm, from);
@@ -302,10 +342,10 @@ function renderGalleryPhoto() {
   galleryEmpty.hidden = hasPhotos;
   galleryPrev.hidden = photos.length < 2;
   galleryNext.hidden = photos.length < 2;
-  galleryCount.textContent = hasPhotos ? `${String(activePhotoIndex + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}` : 'Archivo en preparación';
+  galleryCount.textContent = hasPhotos ? `${String(activePhotoIndex + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}` : T().obras.pending;
   if (hasPhotos) {
     galleryPhoto.src = galleryImagePath(photos[activePhotoIndex]);
-    galleryPhoto.alt = `Foto ${activePhotoIndex + 1} de ${activeDelivered.name}`;
+    galleryPhoto.alt = `${T().gallery.photo} ${activePhotoIndex + 1} · ${activeDelivered.name}`;
     galleryPhoto.animate([{ opacity: 0.35, transform: 'scale(1.025)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 330, easing: 'ease-out' });
   } else {
     galleryPhoto.removeAttribute('src');
@@ -407,7 +447,7 @@ delivered.forEach((project, index) => {
   track.setAttribute('role', 'group');
   track.setAttribute('aria-label', `${project.name}. Deslizá el círculo hacia la derecha, o usá la flecha derecha, para abrir la galería.`);
   const first = project.photos[0];
-  track.innerHTML = `${first ? `<img class="ob-track__img" src="${galleryImagePath(first)}" alt="" loading="lazy" draggable="false" />` : ''}<span class="ob-track__shade"></span><span class="ob-track__copy"><small>0${index + 1} · ${first ? 'Obra entregada' : 'Archivo en preparación'}</small><strong>${project.name}</strong></span><span class="ob-track__end">Deslizá</span><span class="ob-track__ghost" aria-hidden="true"></span><span class="ob-track__handle" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M3 10h14M12 5l5 5-5 5"/></svg></span>`;
+  track.innerHTML = `${first ? `<img class="ob-track__img" src="${galleryImagePath(first)}" alt="" loading="lazy" draggable="false" />` : ''}<span class="ob-track__shade"></span><span class="ob-track__copy"><small data-track-label="${first ? 'delivered' : 'pending'}" data-index="0${index + 1}">0${index + 1} · ${first ? T().obras.delivered : T().obras.pending}</small><strong>${project.name}</strong></span><span class="ob-track__end" data-track-slide>${T().obras.slide}</span><span class="ob-track__ghost" aria-hidden="true"></span><span class="ob-track__handle" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M3 10h14M12 5l5 5-5 5"/></svg></span>`;
   const handle = track.querySelector('.ob-track__handle');
   let progress = 0;
   let startX = null;
@@ -458,17 +498,21 @@ const valueText = document.querySelector('#vg-text');
 values.forEach((value, index) => {
   const item = document.createElement('li');
   item.className = 'vg__item';
-  item.innerHTML = `<span class="vg__i">0${index + 1}</span><div><h3>${value.name}</h3><p class="vg__mobile">${value.detail}</p></div>`;
+  const v = T().about.values[index];
+  item.innerHTML = `<span class="vg__i">0${index + 1}</span><div><h3>${v.name}</h3><p class="vg__mobile">${v.detail}</p><div class="vg__mobile-sketch">${SKETCHES[index]}</div></div>`;
   valuesContainer.append(item);
 });
 const valueItems = [...valuesContainer.children];
 let activeValue = -1;
-function setActiveValue(index) {
-  if (index === activeValue) return;
+function setActiveValue(index, force = false) {
+  if (index === activeValue && !force) return;
   activeValue = index;
   valueItems.forEach((item, n) => item.classList.toggle('is-active', n === index));
   valueNum.textContent = String(index + 1).padStart(2, '0');
-  valueText.textContent = values[index].detail;
+  valueText.textContent = T().about.values[index].detail;
+  const sketch = document.querySelector('#vg-sketch');
+  sketch.innerHTML = SKETCHES[index];
+  sketch.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 900, easing: 'cubic-bezier(.16,1,.3,1)' });
   [valueNum, valueText].forEach(el => el.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: 800, easing: 'cubic-bezier(.16,1,.3,1)' }));
 }
 let valuesTicking = false;
@@ -708,7 +752,7 @@ function buildingRect(W, H) {
   let w = (B.x2 - B.x1) * iw;
   let h = (B.y2 - B.y1) * ih;
   // Margen seguro con el header, los textos y los bordes.
-  const top = mobile ? 110 : Math.min(H * .16, 120);
+  const top = mobile ? 110 : Math.max(228, H * .27);
   const bottom = mobile ? H * .7 : H - Math.max(58, H * .09);
   if (y < top) { h -= top - y; y = top; }
   if (y + h > bottom) h = bottom - y;
@@ -788,3 +832,164 @@ else {
     .then(() => { renderIntroScroll(); intro.classList.add('is-ready'); });
 }
 window.addEventListener('pageshow', () => { if (window.scrollY > 0 && !introOpened) openIntro(true); });
+
+
+// ===== Aviso propio (sin alert) =====
+const toastEl = document.querySelector('#toast');
+let toastTimer = null;
+function showToast(text) {
+  toastEl.textContent = text;
+  toastEl.classList.add('is-on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('is-on'), 2800);
+}
+
+// ===== WhatsApp: flotante y botón de contacto =====
+function updateWhatsAppLinks() {
+  const text = T().contact.waText;
+  document.querySelector('#wa-float').href = waLink(text);
+  document.querySelector('#contact-wa').href = waLink(text);
+}
+
+// ===== Contacto: armá tu edificio, pieza por pieza, y recién entonces aparece el contacto =====
+const buildPieces = document.querySelector('#build-pieces');
+const buildSite = document.querySelector('#build-site');
+const buildStack = document.querySelector('#build-stack');
+const build = document.querySelector('#build');
+const BUILD_TOTAL = 4;
+let placedCount = 0;
+let buildRoof = null;
+
+function renderPieces() {
+  buildPieces.innerHTML = '';
+  T().contact.pieces.forEach((piece, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'piece';
+    btn.dataset.index = i;
+    btn.innerHTML = `<small>${piece.tag}</small><span>${piece.name}</span>`;
+    if (placedByIndex.has(i)) btn.classList.add('is-placed');
+    buildPieces.append(btn);
+  });
+}
+const placedByIndex = new Set();
+
+function placePiece(index) {
+  if (placedByIndex.has(index)) return;
+  placedByIndex.add(index);
+  const piece = buildPieces.querySelector(`.piece[data-index="${index}"]`);
+  if (piece) piece.classList.add('is-placed');
+  const data = T().contact.pieces[index];
+  const block = document.createElement('div');
+  block.className = 'block';
+  block.dataset.index = index;
+  block.style.setProperty('--w', `${Math.max(200, 330 - placedCount * 22)}px`);
+  block.innerHTML = `<span>${data.name}</span><small>${data.tag}</small>`;
+  buildStack.append(block);
+  buildSite.classList.add('has-blocks');
+  placedCount += 1;
+  if (placedCount === BUILD_TOTAL) finishBuild();
+}
+
+function finishBuild() {
+  buildRoof = document.createElement('div');
+  buildRoof.className = 'build__roof';
+  buildRoof.style.setProperty('--w', `${Math.max(200, 330 - (BUILD_TOTAL - 1) * 22)}px`);
+  buildStack.append(buildRoof);
+  setTimeout(() => {
+    build.classList.add('is-complete');
+    setTimeout(() => document.querySelector('#build-done').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 500);
+  }, 700);
+}
+
+function relabelBlocks() {
+  buildStack.querySelectorAll('.block').forEach(block => {
+    const data = T().contact.pieces[Number(block.dataset.index)];
+    block.querySelector('span').textContent = data.name;
+    block.querySelector('small').textContent = data.tag;
+  });
+}
+
+// Clic: la pieza va al edificio. Arrastre: se lleva hasta el terreno.
+let ghost = null;
+let dragPiece = null;
+let dragMovedPiece = false;
+buildPieces.addEventListener('pointerdown', event => {
+  const piece = event.target.closest('.piece');
+  if (!piece) return;
+  event.preventDefault();
+  dragPiece = piece;
+  dragMovedPiece = false;
+  piece.setPointerCapture(event.pointerId);
+});
+buildPieces.addEventListener('pointermove', event => {
+  if (!dragPiece) return;
+  if (!dragMovedPiece) {
+    const r = dragPiece.getBoundingClientRect();
+    if (Math.hypot(event.clientX - (r.left + r.width / 2), event.clientY - (r.top + r.height / 2)) < 6) return;
+    dragMovedPiece = true;
+    ghost = document.createElement('div');
+    ghost.className = 'piece-ghost';
+    ghost.innerHTML = dragPiece.innerHTML;
+    document.body.append(ghost);
+    dragPiece.classList.add('is-dragging');
+  }
+  ghost.style.left = `${event.clientX}px`;
+  ghost.style.top = `${event.clientY}px`;
+  const s = buildSite.getBoundingClientRect();
+  const over = event.clientX >= s.left && event.clientX <= s.right && event.clientY >= s.top && event.clientY <= s.bottom;
+  buildSite.classList.toggle('is-over', over);
+});
+const endPieceDrag = event => {
+  if (!dragPiece) return;
+  const piece = dragPiece;
+  dragPiece = null;
+  const index = Number(piece.dataset.index);
+  if (!dragMovedPiece) { placePiece(index); return; }
+  const s = buildSite.getBoundingClientRect();
+  const over = event.clientX >= s.left && event.clientX <= s.right && event.clientY >= s.top && event.clientY <= s.bottom;
+  buildSite.classList.remove('is-over');
+  if (ghost) { ghost.remove(); ghost = null; }
+  piece.classList.remove('is-dragging');
+  if (over) placePiece(index);
+};
+buildPieces.addEventListener('pointerup', endPieceDrag);
+buildPieces.addEventListener('pointercancel', endPieceDrag);
+
+// ===== Idiomas: ES / EN / PT =====
+function applyTranslations() {
+  const t = T();
+  const get = key => key.split('.').reduce((o, k) => (o ? o[k] : undefined), t);
+  document.querySelectorAll('[data-i18n]').forEach(el => { const v = get(el.dataset.i18n); if (v !== undefined) el.textContent = v; });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { const v = get(el.dataset.i18nHtml); if (v !== undefined) el.innerHTML = v; });
+  document.documentElement.lang = { es: 'es-AR', en: 'en', pt: 'pt-BR' }[currentLang];
+  document.querySelectorAll('.lang button').forEach(b => b.classList.toggle('is-on', b.dataset.lang === currentLang));
+  // Contenido generado por JS
+  document.querySelectorAll('[data-track-label]').forEach(el => { el.textContent = `${el.dataset.index} · ${t.obras[el.dataset.trackLabel]}`; });
+  document.querySelectorAll('[data-track-slide]').forEach(el => { el.textContent = t.obras.slide; });
+  valueItems.forEach((item, i) => { item.querySelector('h3').textContent = t.about.values[i].name; item.querySelector('.vg__mobile').textContent = t.about.values[i].detail; });
+  setActiveValue(Math.max(0, activeValue), true);
+  setDevActive(Math.max(0, devActive), true);
+  if (dialog.open && dialogProject) openProjectDialogTexts();
+  renderPieces();
+  relabelBlocks();
+  updateWhatsAppLinks();
+}
+function openProjectDialogTexts() {
+  const i = projects.indexOf(dialogProject);
+  document.querySelector('#dialog-status').textContent = dialogProject.soon ? `${T().dev.status} · ${T().dev.soon}` : T().dev.status;
+  document.querySelector('#dialog-description').textContent = projectDescription(i);
+}
+function setLang(lang) {
+  if (!I18N[lang]) return;
+  currentLang = lang;
+  try { localStorage.setItem('arkhos-lang', lang); } catch (e) {}
+  applyTranslations();
+}
+document.querySelectorAll('.lang button').forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
+(() => {
+  let saved = null;
+  try { saved = localStorage.getItem('arkhos-lang'); } catch (e) {}
+  currentLang = saved && I18N[saved] ? saved : 'es';
+  applyTranslations();
+})();

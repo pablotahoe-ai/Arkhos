@@ -1,0 +1,146 @@
+/* ===== v15 — header horizontal, rótulos verticales, rueda, ficha, contacto "armá tu edificio", WhatsApp, idiomas ===== */
+
+/* Header con logo horizontal, más bajo para liberar el hero */
+.header-inner{height:96px;gap:28px}
+.brand--h{width:clamp(200px,16vw,260px)}
+.brand--h img{width:100%;height:auto;display:block}
+.main-nav{gap:30px}
+.lang{display:flex;align-items:center;gap:2px;margin-left:6px;padding:3px;border:1px solid rgba(255,255,255,.3);border-radius:999px}
+.lang button{border:0;background:none;color:rgba(255,255,255,.65);font:inherit;font-size:10.5px;font-weight:600;letter-spacing:.12em;padding:6px 9px;border-radius:999px;cursor:pointer;transition:color .4s,background-color .4s}
+.lang button:hover{color:#fff}
+.lang button.is-on{background:var(--gold);color:#fff}
+
+/* Hero: el título nunca sube hasta el header (se limita por alto de pantalla) */
+.intro__brand-title{font-size:min(clamp(56px,6.6vw,118px),10.5vh)}
+.intro__brand-eyebrow{margin-bottom:min(30px,3vh)}
+.intro__side{bottom:calc(100% - var(--fy) + 18px)}
+
+/* Rótulo vertical de sección, a la izquierda, siempre igual */
+.eyebrow--v{position:absolute;z-index:4;left:clamp(10px,1.6vw,34px);top:50%;margin:0;display:flex;align-items:center;gap:16px;white-space:nowrap;transform:translate(-50%,-50%) rotate(-90deg);font-size:10.5px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);pointer-events:none}
+.eyebrow--v:after{content:"";width:44px;height:1px;background:var(--gold);opacity:.9}
+.eyebrow--dark{color:#9e771e}
+.eyebrow--dark:after{background:#9e771e}
+.obras,.about,.contact{position:relative}
+.obras .eyebrow--v{color:var(--gold)}
+
+/* Rueda: el disco ya no lleva rótulo; queda un distintivo pequeño (ej. Próximamente) */
+.dev__eyebrow{min-height:1em}
+.dev__eyebrow:empty{display:none}
+.dev__eyebrow{display:inline-block;padding:7px 14px;border:1px solid rgba(205,152,24,.5);border-radius:999px;font-size:9.5px;letter-spacing:.3em}
+.dev__center{text-align:center}
+
+/* Rueda: botones curvos, más finos y sin fondo pesado */
+.dev__btn-shape{fill:rgba(230,224,210,.035);stroke:rgba(230,224,210,.32);stroke-width:1;transition:fill .5s var(--ease-out),stroke .5s var(--ease-out)}
+.dev__btn-icon{stroke:var(--bone);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .5s var(--ease-out),transform .6s var(--ease-out)}
+.dev__btn:hover .dev__btn-shape,.dev__btn:focus-visible .dev__btn-shape{fill:rgba(205,152,24,.22);stroke:var(--gold)}
+.dev__btn:hover .dev__btn-icon,.dev__btn:focus-visible .dev__btn-icon{stroke:#fff}
+.dev__btn:active .dev__btn-shape{fill:rgba(205,152,24,.4)}
+.dev__btn-dot{fill:var(--gold);opacity:.9}
+
+/* Ficha del proyecto */
+.dialog-address{display:flex;align-items:center;gap:12px;margin:-6px 0 18px;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#9e771e}
+.dialog-address:before{content:"";width:28px;height:1px;background:var(--gold)}
+.dialog-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;margin-top:28px;padding-top:22px;border-top:1px solid var(--line)}
+.dialog-brochure{display:inline-flex;align-items:center;gap:12px;padding:14px 22px;border:1px solid var(--ink);background:var(--ink);color:#fff;text-decoration:none;font-size:10.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;transition:background-color .4s,color .4s,transform .5s var(--ease-out)}
+.dialog-brochure svg{width:18px;height:18px}
+.dialog-brochure:hover{background:var(--gold);border-color:var(--gold);transform:translateY(-2px)}
+.dialog-brochure.is-pending{opacity:.55}
+.dialog-wa{font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:6px;transition:color .4s,border-color .4s}
+.dialog-wa:hover{color:#9e771e;border-color:#9e771e}
+.dialog-body h2{margin-bottom:12px}
+
+/* Quiénes somos: bocetos a lápiz debajo de la descripción */
+.vg__sketch{margin-top:34px;width:min(100%,300px);height:190px;color:#4d565c}
+.vg__sketch svg{width:100%;height:100%;overflow:visible}
+.vg__sketch svg *{vector-effect:non-scaling-stroke}
+.vg__sketch .pencil{fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.vg__sketch .pencil--soft{stroke-width:.9;opacity:.45}
+.vg__sketch .pencil--gold{stroke:#b8860f;opacity:.9}
+.vg__mobile-sketch{display:none}
+
+/* Contacto: armá tu edificio */
+.contact{padding-block:150px 160px;background:var(--paper)}
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(48px,7vw,120px);align-items:start}
+.contact h2{margin-bottom:0}
+.contact-lead{margin:30px 0 12px;font-family:var(--display);font-size:clamp(22px,2.1vw,30px);line-height:1.4;color:var(--ink)}
+.contact-hint{max-width:440px;margin:0 0 36px;font-size:14px;line-height:1.8;color:#6f7478}
+.build__pieces{display:flex;flex-wrap:wrap;gap:14px;min-height:64px}
+.piece{display:inline-flex;align-items:center;gap:16px;padding:16px 22px 16px 18px;border:1px solid var(--ink);background:var(--white);color:var(--ink);font:inherit;font-family:var(--display);font-size:20px;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;transition:transform .5s var(--ease-out),box-shadow .5s var(--ease-out),opacity .4s;animation:piece-in .9s var(--ease-out) both}
+.piece:nth-child(2){animation-delay:.08s}.piece:nth-child(3){animation-delay:.16s}.piece:nth-child(4){animation-delay:.24s}
+@keyframes piece-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.piece small{font-family:var(--body);font-size:9px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#9e771e}
+.piece:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(46,55,64,.14)}
+.piece:active,.piece.is-dragging{cursor:grabbing}
+.piece.is-dragging{opacity:0}
+.piece.is-placed{display:none}
+.piece-ghost{position:fixed;z-index:60;pointer-events:none;display:inline-flex;align-items:center;gap:16px;padding:16px 22px 16px 18px;border:1px solid var(--ink);background:var(--white);color:var(--ink);font-family:var(--display);font-size:20px;box-shadow:0 24px 50px rgba(46,55,64,.22);transform:translate(-50%,-50%) rotate(-2deg)}
+.piece-ghost small{font-family:var(--body);font-size:9px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#9e771e}
+.build{position:relative}
+.build__site{position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;min-height:420px;padding:40px 20px 0;border:1px dashed transparent;transition:border-color .4s,background-color .4s}
+.build__site.is-over{border-color:rgba(205,152,24,.6);background:rgba(205,152,24,.04)}
+.build__stack{display:flex;flex-direction:column-reverse;align-items:center;width:100%}
+.block{--w:320px;position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;width:var(--w);height:78px;padding:0 24px;border:1px solid var(--ink);background:var(--white);font-family:var(--display);font-size:20px;color:var(--ink);animation:block-in 1s var(--ease-out) both}
+.block + .block{margin-bottom:-1px}
+.block:before{content:"";position:absolute;left:20px;right:20px;top:14px;height:12px;background:repeating-linear-gradient(90deg,rgba(46,55,64,.35) 0 14px,transparent 14px 26px);opacity:.5;pointer-events:none}
+.block span{position:relative;margin-top:10px}
+.block small{font-family:var(--body);font-size:9px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#9e771e;margin-top:10px}
+@keyframes block-in{0%{opacity:0;transform:translateY(-120px)}60%{opacity:1;transform:translateY(4px)}100%{opacity:1;transform:none}}
+.build__roof{width:calc(var(--w) + 28px);height:10px;border:1px solid var(--ink);border-bottom:0;background:var(--gold);margin-bottom:-1px;opacity:0;transform:translateY(-30px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+.build.is-complete .build__roof{opacity:1;transform:none}
+.build__ground{display:flex;justify-content:space-between;width:100%;margin-top:0;padding-top:14px;border-top:1px solid var(--ink);font-size:9.5px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:#8a8f91}
+.build__done{overflow:hidden;max-height:0;opacity:0;text-align:center;transition:max-height 1.1s var(--ease-out),opacity .9s var(--ease-out) .2s}
+.build.is-complete .build__done{max-height:360px;opacity:1}
+.build__done-kicker{margin:40px 0 14px;font-size:10px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:#9e771e}
+.build__done h3{margin:0 0 26px;font-family:var(--display);font-size:clamp(30px,2.8vw,42px);font-weight:400;line-height:1.1;letter-spacing:-.01em}
+.build__done h3 em{font-style:normal;color:#9e771e}
+.btn-wa{display:inline-flex;align-items:center;gap:14px;padding:12px 26px 12px 12px;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:#fff;text-decoration:none;font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;transition:background-color .4s,border-color .4s,transform .5s var(--ease-out)}
+.btn-wa img{width:40px;height:40px;object-fit:contain}
+.btn-wa:hover{background:#1f262c;transform:translateY(-2px)}
+.contact-right{display:none}
+
+/* WhatsApp flotante, latiendo */
+.wa-float{position:fixed;right:22px;bottom:22px;z-index:40;width:70px;height:70px;display:block;filter:drop-shadow(0 12px 26px rgba(0,0,0,.35));animation:wa-beat 3.4s ease-in-out infinite;transition:transform .4s var(--ease-out)}
+.wa-float img{width:100%;height:100%;object-fit:contain;display:block}
+.wa-float:hover{animation-play-state:paused;transform:scale(1.1)}
+@keyframes wa-beat{0%,66%,100%{transform:scale(1)}74%{transform:scale(1.12)}81%{transform:scale(1)}88%{transform:scale(1.07)}}
+
+/* Aviso propio (sin diálogos nativos) */
+.toast{position:fixed;left:50%;bottom:34px;z-index:70;transform:translate(-50%,20px);padding:14px 22px;background:var(--ink);color:#fff;font-size:12px;letter-spacing:.08em;box-shadow:0 20px 50px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .4s,transform .5s var(--ease-out)}
+.toast.is-on{opacity:1;transform:translate(-50%,0)}
+
+@media(prefers-reduced-motion:reduce){.wa-float,.piece,.block{animation:none}}
+
+@media(max-width:900px){
+.contact-grid{display:block}
+.build{margin-top:48px}
+.block{--w:min(320px,100%)}
+}
+@media(max-width:720px){
+.header-inner{height:84px}
+.brand--h{width:168px}
+.eyebrow--v{position:static;transform:none;margin:0 0 26px;white-space:normal}
+.eyebrow--v:after{display:none}
+.dev .eyebrow--v{position:absolute;top:92px;left:18px;margin:0}
+.obras .eyebrow--v,.about .eyebrow--v,.contact .eyebrow--v{margin-left:18px;margin-right:18px}
+.about .eyebrow--v{position:absolute;top:60px}
+.contact .eyebrow--v{position:absolute;top:60px}
+.obras .eyebrow--v{position:absolute;top:56px}
+.lang{margin:4px 0 0}
+.vg__sketch{display:none}
+.vg__mobile-sketch{display:block;width:200px;height:130px;margin-top:16px;color:#4d565c}
+.vg__mobile-sketch svg{width:100%;height:100%}
+.vg__mobile-sketch .pencil{fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.vg__mobile-sketch .pencil--soft{stroke-width:.9;opacity:.45}
+.vg__mobile-sketch .pencil--gold{stroke:#b8860f}
+.wa-float{width:58px;height:58px;right:14px;bottom:14px}
+.contact{padding-block:110px}
+}
+
+/* v15b — ajustes */
+.nav-external span[data-i18n]{color:inherit;font-size:inherit;line-height:inherit;vertical-align:baseline}
+.nav-external{opacity:1}
+@media(min-width:721px){.obras .shell,.about .shell,.contact .shell{padding-left:48px}}
+.build__site{border-color:rgba(46,55,64,.18)}
+.build__site.has-blocks{border-color:transparent}
+.build__empty{position:absolute;left:0;right:0;top:46%;margin:0;text-align:center;font-size:10.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:#a3a8aa;pointer-events:none;transition:opacity .5s}
+.build__site.has-blocks .build__empty{opacity:0}
