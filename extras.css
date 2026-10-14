@@ -144,3 +144,12 @@
 .build__site.has-blocks{border-color:transparent}
 .build__empty{position:absolute;left:0;right:0;top:46%;margin:0;text-align:center;font-size:10.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:#a3a8aa;pointer-events:none;transition:opacity .5s}
 .build__site.has-blocks .build__empty{opacity:0}
+
+/* v16 — botones redondos de la rueda, sin contador ni "Ver proyecto" */
+.dev__btn .dev__btn-shape{fill:#2e3740;stroke:rgba(230,224,210,.55);stroke-width:1;filter:drop-shadow(0 6px 14px rgba(20,26,31,.35));transition:fill .5s var(--ease-out),stroke .5s var(--ease-out)}
+.dev__btn .dev__btn-icon{fill:none;stroke:var(--bone);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.dev__btn:hover .dev__btn-shape,.dev__btn:focus-visible .dev__btn-shape{fill:var(--gold);stroke:var(--gold)}
+.dev__btn:hover .dev__btn-icon,.dev__btn:focus-visible .dev__btn-icon{stroke:#fff}
+.dev__btn:active .dev__btn-shape{fill:#b8860f}
+.dev__desc{margin-bottom:0}
+.dev__wheel g{cursor:pointer}

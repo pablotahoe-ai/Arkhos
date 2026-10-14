@@ -13,52 +13,10 @@ const projects = [
 projects.forEach(p => { p.location = `${p.address} · Mar del Plata`; });
 const projectDescription = i => T().dev.projects[i];
 
-// Bocetos a lápiz para cada valor (SVG en línea). Se dibujan con un leve "temblor" de trazo.
-const PENCIL = '<defs><filter id="pencil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter></defs>';
-const SKETCHES = [
-  // 01 Transparencia: fachada vidriada con luz, y una planilla con todo a la vista.
-  `<svg viewBox="0 0 300 190" aria-hidden="true">${PENCIL}<g filter="url(#pencil)">
-    <path class="pencil" d="M42 168 V46 l48 -14 v136"/><path class="pencil" d="M42 168 H90"/>
-    <path class="pencil pencil--soft" d="M54 60 v96 M66 56 v100 M78 52 v104 M42 80 l48 -12 M42 104 l48 -12 M42 128 l48 -12 M42 152 l48 -12"/>
-    <path class="pencil pencil--gold" d="M112 34 l20 -16 M118 52 l26 -8 M110 20 l10 -16"/>
-    <path class="pencil" d="M166 58 h98 v100 h-98 z"/><path class="pencil pencil--soft" d="M186 52 h58 v12 h-58 z"/>
-    <path class="pencil pencil--soft" d="M184 86 h60 M184 106 h60 M184 126 h44"/>
-    <path class="pencil pencil--gold" d="M176 84 l4 5 7 -9 M176 104 l4 5 7 -9 M176 124 l4 5 7 -9"/>
-    <path class="pencil pencil--soft" d="M30 172 h250"/></g></svg>`,
-  // 02 Compromiso: el plano firmado y el casco de obra.
-  `<svg viewBox="0 0 300 190" aria-hidden="true">${PENCIL}<g filter="url(#pencil)">
-    <path class="pencil" d="M58 42 l150 -6 l4 118 l-150 6 z"/>
-    <path class="pencil pencil--soft" d="M78 62 h50 v36 h-50 z M136 60 h52 v22 h-52 z M136 90 h52 v28 h-52 z M78 106 h50 v26 h-50 z M103 62 v36"/>
-    <path class="pencil pencil--gold" d="M84 146 c10 -16 14 4 22 -8 s10 10 20 -6 s12 8 24 -4 s10 6 18 -2"/>
-    <path class="pencil" d="M196 122 l30 -34 l8 6 l-30 34 z M226 88 l6 -7 l8 6 l-6 7"/>
-    <path class="pencil" d="M222 170 c0 -22 16 -38 38 -38 s38 16 38 38 z"/><path class="pencil pencil--soft" d="M214 170 h92 M260 132 v-8"/>
-    <path class="pencil pencil--soft" d="M30 176 h250"/></g></svg>`,
-  // 03 Cercanía: una mesa, dos sillas, dos cafés. Una charla.
-  `<svg viewBox="0 0 300 190" aria-hidden="true">${PENCIL}<g filter="url(#pencil)">
-    <path class="pencil" d="M80 100 c0 -18 32 -30 70 -30 s70 12 70 30 s-32 30 -70 30 s-70 -12 -70 -30 z"/>
-    <path class="pencil pencil--soft" d="M150 130 v40 M118 168 h64"/>
-    <path class="pencil" d="M118 96 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M136 94 c6 -2 8 6 2 8"/>
-    <path class="pencil" d="M164 104 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M182 102 c6 -2 8 6 2 8"/>
-    <path class="pencil pencil--gold" d="M124 80 c-2 -6 2 -8 0 -14 M130 80 c-2 -6 2 -8 0 -14 M170 88 c-2 -6 2 -8 0 -14"/>
-    <path class="pencil" d="M30 70 h26 v60 h-26 M30 70 v-30 h26 v30 M232 78 h26 v60 h-26 M232 78 v-30 h26 v30"/>
-    <path class="pencil pencil--soft" d="M20 176 h260"/></g></svg>`,
-  // 04 Calidad: hiladas de ladrillo bien aplomadas y el nivel de burbuja.
-  `<svg viewBox="0 0 300 190" aria-hidden="true">${PENCIL}<g filter="url(#pencil)">
-    <path class="pencil" d="M40 170 h220 M40 150 h220 M40 130 h220 M40 110 h220 M40 90 h220 M40 170 v-80 M260 170 v-80"/>
-    <path class="pencil pencil--soft" d="M84 150 v20 M128 150 v20 M172 150 v20 M216 150 v20 M62 130 v20 M106 130 v20 M150 130 v20 M194 130 v20 M238 130 v20 M84 110 v20 M128 110 v20 M172 110 v20 M216 110 v20 M62 90 v20 M106 90 v20 M150 90 v20 M194 90 v20 M238 90 v20"/>
-    <path class="pencil" d="M60 86 h180 a6 6 0 0 1 6 6 v12 a6 6 0 0 1 -6 6 h-180 a6 6 0 0 1 -6 -6 v-12 a6 6 0 0 1 6 -6 z"/>
-    <path class="pencil" d="M132 82 h36 v26 h-36 z"/><path class="pencil pencil--gold" d="M144 90 a6 5 0 1 0 12 0 a6 5 0 1 0 -12 0"/>
-    <path class="pencil pencil--soft" d="M150 60 v18 M150 60 l-6 8 M150 60 l6 8"/></g></svg>`,
-  // 05 Respaldo: la llave con el llavero de la obra. La relación sigue después de la entrega.
-  `<svg viewBox="0 0 300 190" aria-hidden="true">${PENCIL}<g filter="url(#pencil)">
-    <path class="pencil" d="M78 96 a26 26 0 1 0 52 0 a26 26 0 1 0 -52 0 M94 96 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0"/>
-    <path class="pencil" d="M130 96 h100 v12 h-14 v10 h-10 v-10 h-14 v12 h-10 v-12 h-52"/>
-    <path class="pencil pencil--soft" d="M104 70 c-6 -14 -4 -26 8 -34 c12 -8 24 -2 30 10"/>
-    <path class="pencil" d="M178 28 h50 v68 h-50 z M178 28 l25 -14 l25 14"/>
-    <path class="pencil pencil--soft" d="M188 42 h8 v8 h-8 z M210 42 h8 v8 h-8 z M188 60 h8 v8 h-8 z M210 60 h8 v8 h-8 z M188 78 h8 v8 h-8 z M210 78 h8 v8 h-8 z"/>
-    <path class="pencil pencil--gold" d="M142 52 c0 -8 10 -8 10 0 M152 52 c0 10 -10 10 -10 0"/>
-    <path class="pencil pencil--soft" d="M40 160 h220"/></g></svg>`,
-];
+// Dibujos a lápiz de cada valor (en el orden de la lista).
+const SKETCH_FILES = ['valor-transparencia', 'valor-compromiso', 'valor-cercania', 'valor-calidad', 'valor-respaldo'];
+const SKETCHES = SKETCH_FILES.map(f => `<img src="./${f}.webp" alt="" loading="lazy" draggable="false" />`);
+SKETCH_FILES.forEach(f => { const i = new Image(); i.src = `./${f}.webp`; });
 
 const delivered = [
   { name: 'Lipari Libertad', photos: ['libertad-1.webp', 'libertad-2.webp', 'libertad-3.webp'] },
@@ -109,7 +67,6 @@ const devDesc = document.querySelector('#dev-desc');
 const devLocation = document.querySelector('#dev-location');
 const devCenter = dev.querySelector('.dev__center');
 const SVGNS = 'http://www.w3.org/2000/svg';
-document.querySelector('#dev-total').textContent = String(projects.length).padStart(2, '0');
 dev.style.setProperty('--dev-count', projects.length);
 
 // El aro repite la lista para que siempre haya obras alrededor (loop sin huecos).
@@ -175,14 +132,12 @@ function setDevActive(i, force = false) {
   const first = devActive === -1;
   devActive = i;
   const project = projects[i];
-  devIndex.textContent = String(i + 1).padStart(2, '0');
   devName.textContent = project.name;
   devDesc.textContent = projectDescription(i);
   devLocation.textContent = project.location;
   document.querySelector('#dev-badge').textContent = project.soon ? T().dev.soon : '';
-  if (!first) [devIndex, devName, devLocation, devDesc].forEach((el, n) => el.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 900, delay: n * 60, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' }));
+  if (!first) [devName, devLocation, devDesc].forEach((el, n) => el.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 900, delay: n * 60, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' }));
 }
-document.querySelector('#dev-cta').addEventListener('click', () => openProjectDialog(projects[Math.max(0, devActive)]));
 
 let devF = 0;
 let devAnim = null;
@@ -249,35 +204,20 @@ const devControls = document.querySelector('.dev__controls');
 const devBtns = [...devControls.querySelectorAll('.dev__btn')];
 function renderDevControls(cx, cy, r1, baseAngle) {
   devControls.setAttribute('viewBox', `0 0 ${devSticky.clientWidth} ${devSticky.clientHeight}`);
-  const outer = r1 - 14;
-  const inner = outer - Math.max(30, r1 * .12);
+  // Dos botones redondos sobre el borde del disco; la flecha curva sigue el giro de la rueda.
+  const edge = r1 - 8;
+  const size = Math.max(22, Math.min(30, r1 * .1));
   const deg = Math.PI / 180;
   devBtns.forEach(btn => {
     const dir = Number(btn.dataset.dir);
-    const a0 = baseAngle + dir * 27 * deg;
-    const a1 = baseAngle + dir * 57 * deg;
-    btn.querySelector('.dev__btn-shape').setAttribute('d', dir < 0 ? wedgePath(cx, cy, inner, outer, a1, a0) : wedgePath(cx, cy, inner, outer, a0, a1));
-    const am = (a0 + a1) / 2;
-    const [ix, iy] = polar(cx, cy, (inner + outer) / 2, am);
-    // Flecha curva que sigue el aro, en el sentido del giro.
-    const rm = (inner + outer) / 2;
-    // Anterior: gira hacia arriba (ángulo decreciente). Siguiente: hacia abajo (ángulo creciente).
-    const half = Math.abs(a1 - a0) * .26;
-    const from = dir < 0 ? am + half : am - half;
-    const to = dir < 0 ? am - half : am + half;
-    const [fx, fy] = polar(cx, cy, rm, from);
-    const [tx, ty] = polar(cx, cy, rm, to);
-    const sweep = to > from ? 1 : 0;
-    // Dirección de avance en la punta (tangente al aro).
-    const sign = to > from ? 1 : -1;
-    const ux = -Math.sin(to) * sign;
-    const uy = Math.cos(to) * sign;
-    const head = Math.max(7, (outer - inner) * .26);
-    const rot = (x, y, ang) => [x * Math.cos(ang) - y * Math.sin(ang), x * Math.sin(ang) + y * Math.cos(ang)];
-    const [w1x, w1y] = rot(-ux, -uy, .55);
-    const [w2x, w2y] = rot(-ux, -uy, -.55);
-    btn.querySelector('.dev__btn-icon').setAttribute('transform', '');
-    btn.querySelector('.dev__btn-icon').setAttribute('d', `M ${fx} ${fy} A ${rm} ${rm} 0 0 ${sweep} ${tx} ${ty} M ${tx + w1x * head} ${ty + w1y * head} L ${tx} ${ty} L ${tx + w2x * head} ${ty + w2y * head}`);
+    const ang = baseAngle + dir * 40 * deg;
+    const [bx, by] = polar(cx, cy, edge, ang);
+    const circle = btn.querySelector('.dev__btn-shape');
+    circle.setAttribute('cx', bx);
+    circle.setAttribute('cy', by);
+    circle.setAttribute('r', size);
+    const k = size / 26;
+    btn.querySelector('.dev__btn-icon').setAttribute('transform', `translate(${bx} ${by}) rotate(${baseAngle / deg}) scale(${k * 1.9}) translate(-5.5 0)`);
   });
 }
 function spinDev(dir) {
@@ -515,20 +455,25 @@ function setActiveValue(index, force = false) {
   sketch.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 900, easing: 'cubic-bezier(.16,1,.3,1)' });
   [valueNum, valueText].forEach(el => el.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: 800, easing: 'cubic-bezier(.16,1,.3,1)' }));
 }
+// La sección queda trabada: cada tramo de scroll muestra un valor; el último se sostiene hasta el final.
+const aboutPin = document.querySelector('#about-pin');
+const aboutBar = document.querySelector('#about-bar');
 let valuesTicking = false;
 function updateValues() {
   valuesTicking = false;
-  const center = window.innerHeight * .5;
-  let best = 0;
-  let bestDistance = Infinity;
-  valueItems.forEach((item, n) => {
-    const r = item.getBoundingClientRect();
-    const distance = Math.abs(r.top + r.height / 2 - center);
-    if (distance < bestDistance) { bestDistance = distance; best = n; }
-  });
-  setActiveValue(best);
+  const r = aboutPin.getBoundingClientRect();
+  const travel = Math.max(1, aboutPin.offsetHeight - window.innerHeight);
+  const p = Math.max(0, Math.min(1, -r.top / travel));
+  const n = valueItems.length;
+  setActiveValue(Math.min(n - 1, Math.floor(p * n * 1.08)));
+  if (aboutBar) aboutBar.style.transform = `scaleY(${p})`;
 }
 window.addEventListener('scroll', () => { if (!valuesTicking) { valuesTicking = true; requestAnimationFrame(updateValues); } }, { passive: true });
+valueItems.forEach((item, i) => item.addEventListener('click', () => {
+  const travel = aboutPin.offsetHeight - window.innerHeight;
+  const top = aboutPin.getBoundingClientRect().top + window.scrollY + travel * ((i + .5) / (valueItems.length * 1.08));
+  window.scrollTo({ top, behavior: 'smooth' });
+}));
 setActiveValue(0);
 
 document.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
@@ -851,110 +796,151 @@ function updateWhatsAppLinks() {
   document.querySelector('#contact-wa').href = waLink(text);
 }
 
-// ===== Contacto: armá tu edificio, pieza por pieza, y recién entonces aparece el contacto =====
-const buildPieces = document.querySelector('#build-pieces');
-const buildSite = document.querySelector('#build-site');
-const buildStack = document.querySelector('#build-stack');
-const build = document.querySelector('#build');
-const BUILD_TOTAL = 4;
-let placedCount = 0;
-let buildRoof = null;
+// ===== Contacto: el visitante dibuja su proyecto con un lápiz; al completarlo aparece el render y luego el contacto =====
+const contactSection = document.querySelector('#contacto');
+const drawPaper = document.querySelector('#draw-paper');
+const drawCanvas = document.querySelector('#draw-canvas');
+const drawCtx = drawCanvas.getContext('2d');
+const drawGuide = drawPaper.querySelector('.draw__guide');
+const drawStart = document.querySelector('#draw-start');
+const drawPencil = document.querySelector('#draw-pencil');
+const drawMeter = document.querySelector('#draw-meter');
+const drawAgain = document.querySelector('#draw-again');
+const maskCanvas = document.createElement('canvas');
+const maskCtx = maskCanvas.getContext('2d');
+const GRID = 28;
+let drawCells = null;      // celdas con líneas del boceto (las que cuentan para completar)
+let drawCovered = new Set();
+let drawActive = false;
+let drawDown = false;
+let drawLast = null;
+let drawFinished = false;
+let drawW = 0, drawH = 0;
 
-function renderPieces() {
-  buildPieces.innerHTML = '';
-  T().contact.pieces.forEach((piece, i) => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'piece';
-    btn.dataset.index = i;
-    btn.innerHTML = `<small>${piece.tag}</small><span>${piece.name}</span>`;
-    if (placedByIndex.has(i)) btn.classList.add('is-placed');
-    buildPieces.append(btn);
-  });
+function sizeDraw() {
+  const r = drawPaper.getBoundingClientRect();
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  drawW = r.width; drawH = r.height;
+  [drawCanvas, maskCanvas].forEach(c => { c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr); });
+  drawCanvas.style.width = `${r.width}px`; drawCanvas.style.height = `${r.height}px`;
+  maskCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  drawCtx.setTransform(1, 0, 0, 1, 0, 0);
 }
-const placedByIndex = new Set();
-
-function placePiece(index) {
-  if (placedByIndex.has(index)) return;
-  placedByIndex.add(index);
-  const piece = buildPieces.querySelector(`.piece[data-index="${index}"]`);
-  if (piece) piece.classList.add('is-placed');
-  const data = T().contact.pieces[index];
-  const block = document.createElement('div');
-  block.className = 'block';
-  block.dataset.index = index;
-  block.style.setProperty('--w', `${Math.max(200, 330 - placedCount * 22)}px`);
-  block.innerHTML = `<span>${data.name}</span><small>${data.tag}</small>`;
-  buildStack.append(block);
-  buildSite.classList.add('has-blocks');
-  placedCount += 1;
-  if (placedCount === BUILD_TOTAL) finishBuild();
-}
-
-function finishBuild() {
-  buildRoof = document.createElement('div');
-  buildRoof.className = 'build__roof';
-  buildRoof.style.setProperty('--w', `${Math.max(200, 330 - (BUILD_TOTAL - 1) * 22)}px`);
-  buildStack.append(buildRoof);
-  setTimeout(() => {
-    build.classList.add('is-complete');
-    setTimeout(() => document.querySelector('#build-done').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 500);
-  }, 700);
-}
-
-function relabelBlocks() {
-  buildStack.querySelectorAll('.block').forEach(block => {
-    const data = T().contact.pieces[Number(block.dataset.index)];
-    block.querySelector('span').textContent = data.name;
-    block.querySelector('small').textContent = data.tag;
-  });
-}
-
-// Clic: la pieza va al edificio. Arrastre: se lleva hasta el terreno.
-let ghost = null;
-let dragPiece = null;
-let dragMovedPiece = false;
-buildPieces.addEventListener('pointerdown', event => {
-  const piece = event.target.closest('.piece');
-  if (!piece) return;
-  event.preventDefault();
-  dragPiece = piece;
-  dragMovedPiece = false;
-  piece.setPointerCapture(event.pointerId);
-});
-buildPieces.addEventListener('pointermove', event => {
-  if (!dragPiece) return;
-  if (!dragMovedPiece) {
-    const r = dragPiece.getBoundingClientRect();
-    if (Math.hypot(event.clientX - (r.left + r.width / 2), event.clientY - (r.top + r.height / 2)) < 6) return;
-    dragMovedPiece = true;
-    ghost = document.createElement('div');
-    ghost.className = 'piece-ghost';
-    ghost.innerHTML = dragPiece.innerHTML;
-    document.body.append(ghost);
-    dragPiece.classList.add('is-dragging');
+function computeCells() {
+  if (!drawGuide.complete || !drawGuide.naturalWidth) return;
+  const c = document.createElement('canvas');
+  c.width = GRID; c.height = Math.round(GRID * drawGuide.naturalHeight / drawGuide.naturalWidth);
+  const x = c.getContext('2d');
+  x.drawImage(drawGuide, 0, 0, c.width, c.height);
+  let data;
+  try { data = x.getImageData(0, 0, c.width, c.height).data; } catch (e) { data = null; }
+  drawCells = { cols: c.width, rows: c.height, list: new Set() };
+  for (let j = 0; j < c.height; j++) for (let i = 0; i < c.width; i++) {
+    const a = data ? data[(j * c.width + i) * 4 + 3] : 255;
+    if (a > 40) drawCells.list.add(`${i},${j}`);
   }
-  ghost.style.left = `${event.clientX}px`;
-  ghost.style.top = `${event.clientY}px`;
-  const s = buildSite.getBoundingClientRect();
-  const over = event.clientX >= s.left && event.clientX <= s.right && event.clientY >= s.top && event.clientY <= s.bottom;
-  buildSite.classList.toggle('is-over', over);
+}
+function paintDraw() {
+  const w = drawCanvas.width, h = drawCanvas.height;
+  drawCtx.clearRect(0, 0, w, h);
+  drawCtx.globalCompositeOperation = 'source-over';
+  drawCtx.drawImage(maskCanvas, 0, 0);
+  drawCtx.globalCompositeOperation = 'source-in';
+  drawCtx.drawImage(drawGuide, 0, 0, w, h);
+  drawCtx.globalCompositeOperation = 'source-over';
+}
+function markCells(x, y, radius) {
+  if (!drawCells) return;
+  const cw = drawW / drawCells.cols, ch = drawH / drawCells.rows;
+  const r = Math.ceil(radius / Math.min(cw, ch));
+  const ci = Math.floor(x / cw), cj = Math.floor(y / ch);
+  for (let j = cj - r; j <= cj + r; j++) for (let i = ci - r; i <= ci + r; i++) {
+    const key = `${i},${j}`;
+    if (drawCells.list.has(key)) drawCovered.add(key);
+  }
+  const p = Math.min(1, drawCovered.size / (drawCells.list.size * .3));
+  drawMeter.style.transform = `scaleX(${p})`;
+  if (p >= 1 && !drawFinished) finishDraw();
+}
+function strokeTo(x, y) {
+  const brush = Math.max(30, drawW * .07);
+  maskCtx.lineCap = 'round'; maskCtx.lineJoin = 'round';
+  maskCtx.strokeStyle = '#000'; maskCtx.lineWidth = brush;
+  maskCtx.beginPath();
+  maskCtx.moveTo(drawLast ? drawLast.x : x, drawLast ? drawLast.y : y);
+  maskCtx.lineTo(x, y);
+  maskCtx.stroke();
+  // Marcar celdas a lo largo del trazo
+  const steps = drawLast ? Math.max(1, Math.ceil(Math.hypot(x - drawLast.x, y - drawLast.y) / 8)) : 1;
+  for (let s2 = 1; s2 <= steps; s2++) {
+    const t = s2 / steps;
+    markCells(drawLast ? drawLast.x + (x - drawLast.x) * t : x, drawLast ? drawLast.y + (y - drawLast.y) * t : y, brush / 2);
+  }
+  drawLast = { x, y };
+  paintDraw();
+}
+function localPoint(event) {
+  const r = drawPaper.getBoundingClientRect();
+  return { x: event.clientX - r.left, y: event.clientY - r.top };
+}
+function startDrawing() {
+  if (drawActive || drawFinished) return;
+  drawActive = true;
+  sizeDraw();
+  if (!drawCells) computeCells();
+  contactSection.classList.add('is-drawing');
+}
+drawStart.addEventListener('click', event => {
+  event.stopPropagation();
+  startDrawing();
+  const p = localPoint(event);
+  drawLast = null;
+  strokeTo(p.x, p.y);
 });
-const endPieceDrag = event => {
-  if (!dragPiece) return;
-  const piece = dragPiece;
-  dragPiece = null;
-  const index = Number(piece.dataset.index);
-  if (!dragMovedPiece) { placePiece(index); return; }
-  const s = buildSite.getBoundingClientRect();
-  const over = event.clientX >= s.left && event.clientX <= s.right && event.clientY >= s.top && event.clientY <= s.bottom;
-  buildSite.classList.remove('is-over');
-  if (ghost) { ghost.remove(); ghost = null; }
-  piece.classList.remove('is-dragging');
-  if (over) placePiece(index);
-};
-buildPieces.addEventListener('pointerup', endPieceDrag);
-buildPieces.addEventListener('pointercancel', endPieceDrag);
+drawPaper.addEventListener('pointerdown', event => {
+  if (drawFinished) return;
+  if (event.target === drawStart || drawStart.contains(event.target)) return;
+  startDrawing();
+  drawDown = true;
+  drawLast = null;
+  drawPaper.setPointerCapture(event.pointerId);
+  const p = localPoint(event);
+  strokeTo(p.x, p.y);
+});
+drawPaper.addEventListener('pointermove', event => {
+  const p = localPoint(event);
+  drawPencil.style.transform = `translate(${p.x}px, ${p.y - 40}px)`;
+  if (drawDown && !drawFinished) strokeTo(p.x, p.y);
+});
+const endDraw = () => { drawDown = false; drawLast = null; };
+drawPaper.addEventListener('pointerup', endDraw);
+drawPaper.addEventListener('pointercancel', endDraw);
+drawPaper.addEventListener('pointerenter', () => drawPaper.classList.add('is-hover'));
+drawPaper.addEventListener('pointerleave', () => drawPaper.classList.remove('is-hover'));
+
+function finishDraw() {
+  drawFinished = true;
+  drawDown = false;
+  drawMeter.style.transform = 'scaleX(1)';
+  // Completa el boceto, luego aparece el render y por último el contacto.
+  maskCtx.fillStyle = '#000';
+  maskCtx.fillRect(0, 0, drawW, drawH);
+  contactSection.classList.add('is-sketched');
+  paintDraw();
+  setTimeout(() => contactSection.classList.add('is-rendered'), 900);
+  setTimeout(() => contactSection.classList.add('is-done'), 3200);
+}
+function resetDraw() {
+  drawFinished = false; drawActive = false; drawDown = false; drawLast = null;
+  drawCovered = new Set();
+  maskCtx.clearRect(0, 0, drawW, drawH);
+  paintDraw();
+  drawMeter.style.transform = 'scaleX(0)';
+  contactSection.classList.remove('is-drawing', 'is-sketched', 'is-rendered', 'is-done');
+}
+drawAgain.addEventListener('click', resetDraw);
+window.addEventListener('resize', () => { if (!drawFinished) { sizeDraw(); paintDraw(); } });
+if (drawGuide.complete) computeCells(); else drawGuide.addEventListener('load', computeCells);
 
 // ===== Idiomas: ES / EN / PT =====
 function applyTranslations() {
@@ -971,8 +957,6 @@ function applyTranslations() {
   setActiveValue(Math.max(0, activeValue), true);
   setDevActive(Math.max(0, devActive), true);
   if (dialog.open && dialogProject) openProjectDialogTexts();
-  renderPieces();
-  relabelBlocks();
   updateWhatsAppLinks();
 }
 function openProjectDialogTexts() {
