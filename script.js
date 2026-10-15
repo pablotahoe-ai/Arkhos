@@ -184,7 +184,7 @@ function renderDev() {
     w.shadow.style.opacity = String(near * .9);
     const rm = inner + (outer - inner) * .55;
     const [mx, my] = polar(cx, cy, rm, mid);
-    const size = Math.max(outer - inner, 2 * outer * Math.sin(step / 2)) * 1.15;
+    const size = Math.max(outer - inner, 2 * outer * Math.sin(step / 2)) * 1.15 * (window.matchMedia('(max-width: 720px)').matches ? 1.14 : 1);
     w.img.setAttribute('x', mx - size / 2);
     w.img.setAttribute('y', my - size / 2);
     w.img.setAttribute('width', size);
@@ -198,6 +198,38 @@ function renderDev() {
   renderDevControls(cx, cy, r1, baseAngle);
 }
 window.addEventListener('resize', renderDev);
+
+// Parallax de la rueda (solo mobile): al inclinar el celular, las fotos se mueven apenas.
+let tiltTX = 0, tiltTY = 0, tiltX = 0, tiltY = 0, tiltRaf = null;
+function tiltLoop() {
+  tiltX += (tiltTX - tiltX) * .12;
+  tiltY += (tiltTY - tiltY) * .12;
+  devWedges.forEach(w => w.img.setAttribute('transform', `translate(${tiltX.toFixed(2)} ${tiltY.toFixed(2)})`));
+  tiltRaf = Math.abs(tiltTX - tiltX) + Math.abs(tiltTY - tiltY) > .05 ? requestAnimationFrame(tiltLoop) : null;
+}
+function onTilt(event) {
+  if (!window.matchMedia('(max-width: 720px)').matches) return;
+  const g = Math.max(-25, Math.min(25, event.gamma || 0));
+  const b = Math.max(-25, Math.min(25, (event.beta || 0) - 45));
+  tiltTX = g / 25 * 16;
+  tiltTY = b / 25 * 16;
+  if (!tiltRaf) tiltRaf = requestAnimationFrame(tiltLoop);
+}
+function enableTilt() {
+  if (typeof DeviceOrientationEvent === 'undefined') return;
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    DeviceOrientationEvent.requestPermission().then(r => { if (r === 'granted') window.addEventListener('deviceorientation', onTilt); }).catch(() => {});
+  } else {
+    window.addEventListener('deviceorientation', onTilt);
+  }
+}
+if (window.matchMedia('(max-width: 720px)').matches) {
+  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    window.addEventListener('touchend', enableTilt, { once: true });
+  } else {
+    enableTilt();
+  }
+}
 
 // Botones curvos dentro del aro: giran la rueda un lugar, sin fin.
 const devControls = document.querySelector('.dev__controls');
@@ -941,6 +973,7 @@ function tapReveal() {
   requestAnimationFrame(step);
 }
 if (drawTap) drawTap.addEventListener('click', tapReveal);
+drawPaper.addEventListener('click', () => { if (isMobileView()) tapReveal(); });
 drawPaper.addEventListener('pointerdown', event => {
   if (drawFinished || isMobileView()) return;
   startDrawing();
