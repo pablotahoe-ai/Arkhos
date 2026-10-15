@@ -175,3 +175,11 @@ html{scroll-snap-type:none}
 
 /* v21 — el encaje lo maneja el JS en PC */
 html{scroll-snap-type:none!important;scroll-behavior:auto!important}
+
+/* v27 — textos más grandes (desktop) */
+@media(min-width:901px){
+.eyebrow--v{font-size:13px}
+.dev__eyebrow{font-size:clamp(11.5px,calc(var(--r1) * .05),13.5px)}
+.dev__location{font-size:clamp(13px,calc(var(--r1) * .058),16px);letter-spacing:.16em;white-space:nowrap}
+.dev__desc{font-size:clamp(17px,calc(var(--r1) * .088),24px)}
+}
