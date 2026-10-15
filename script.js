@@ -447,7 +447,7 @@ values.forEach((value, index) => {
   const item = document.createElement('li');
   item.className = 'vg__item';
   const v = T().about.values[index];
-  item.innerHTML = `<span class="vg__i">0${index + 1}</span><div><h3>${v.name}</h3><p class="vg__mobile">${v.detail}</p><div class="vg__mobile-sketch">${SKETCHES[index]}</div></div>`;
+  item.innerHTML = `<span class="vg__i">0${index + 1}</span><div><h3>${v.name}</h3><p class="vg__m vg__m-label" data-i18n="about.guide">${T().about.guide}</p><p class="vg__m vg__m-num">0${index + 1}<small>/ 0${values.length}</small></p><p class="vg__mobile">${v.detail}</p><div class="vg__mobile-sketch">${SKETCHES[index]}</div></div>`;
   valuesContainer.append(item);
 });
 const valueItems = [...valuesContainer.children];
@@ -689,7 +689,20 @@ const IMG_RATIO = 2006 / 784;
 const introNight = intro.querySelector('.intro__img--night');
 const introPin = intro.querySelector('.intro__pin');
 
+function centerIntroMobile(W, H) {
+  // Solo mobile: corre la foto para que el edificio (y su recuadro) quede centrado.
+  if (W > 720) return;
+  const scale = Math.max(W / IMG_RATIO, H);
+  const iw = scale * IMG_RATIO;
+  if (iw - W < 1) return;
+  const cx = (BUILDING_MOBILE.x1 + BUILDING_MOBILE.x2) / 2;
+  const px = Math.min(1, Math.max(0, (W / 2 - cx * iw) / (W - iw)));
+  const py = (getComputedStyle(introSharp).objectPosition.split(' ')[1]) || '50%';
+  const v = `${(px * 100).toFixed(3)}% ${py}`;
+  intro.querySelectorAll('.intro__img').forEach(img => { if (img.style.objectPosition !== v) img.style.objectPosition = v; });
+}
 function buildingRect(W, H) {
+  centerIntroMobile(W, H);
   const style = getComputedStyle(introSharp).objectPosition.split(' ');
   const px = parseFloat(style[0]) / 100;
   const py = parseFloat(style[1] || '50%') / 100;
@@ -898,8 +911,38 @@ function startDrawing() {
   if (!drawCells) computeCells();
   contactSection.classList.add('is-drawing');
 }
+const drawTap = document.querySelector('#draw-tap');
+const isMobileView = () => window.matchMedia('(max-width: 720px)').matches;
+function tapReveal() {
+  if (drawActive || drawFinished) return;
+  startDrawing();
+  drawFinished = true;
+  const t0 = performance.now();
+  const D = 2600;
+  const feather = Math.max(60, drawH * .14);
+  const step = now => {
+    const p = Math.min(1, (now - t0) / D);
+    const e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+    const y = (drawH + feather) * (1 - e) - feather;
+    maskCtx.clearRect(0, 0, drawW, drawH);
+    const g = maskCtx.createLinearGradient(0, y, 0, y + feather);
+    g.addColorStop(0, 'rgba(0,0,0,0)');
+    g.addColorStop(1, '#000');
+    maskCtx.fillStyle = g;
+    maskCtx.fillRect(0, y, drawW, feather);
+    maskCtx.fillStyle = '#000';
+    maskCtx.fillRect(0, y + feather, drawW, drawH);
+    paintDraw();
+    drawMeter.style.transform = `scaleX(${e})`;
+    if (p < 1) { requestAnimationFrame(step); return; }
+    contactSection.classList.add('is-sketched', 'is-rendered', 'is-named');
+    setTimeout(() => contactSection.classList.add('is-done'), 3400);
+  };
+  requestAnimationFrame(step);
+}
+if (drawTap) drawTap.addEventListener('click', tapReveal);
 drawPaper.addEventListener('pointerdown', event => {
-  if (drawFinished) return;
+  if (drawFinished || isMobileView()) return;
   startDrawing();
   drawDown = true;
   drawLast = null;
@@ -936,7 +979,7 @@ function resetDraw() {
   maskCtx.clearRect(0, 0, drawW, drawH);
   paintDraw();
   drawMeter.style.transform = 'scaleX(0)';
-  contactSection.classList.remove('is-drawing', 'is-sketched', 'is-rendered', 'is-done');
+  contactSection.classList.remove('is-drawing', 'is-sketched', 'is-rendered', 'is-done', 'is-named');
 }
 drawAgain.addEventListener('click', resetDraw);
 window.addEventListener('resize', () => { if (!drawFinished) { sizeDraw(); paintDraw(); } });

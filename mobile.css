@@ -1,0 +1,49 @@
+/* mobile.css — ajustes SOLO para celular (max-width:720px). No afecta PC. */
+.vg__m,.draw__tap,.draw__name{display:none}
+
+@media(max-width:720px){
+/* Hero: "Nuevo desarrollo · Ulises I" arriba del recuadro, dirección vertical a la izquierda */
+.intro__side{top:auto!important;bottom:calc(100% - var(--fy) + 14px)!important}
+.intro__tag{top:auto;left:auto;right:calc(100% - var(--fx) + 8px);bottom:calc(100% - var(--fy) - var(--fh));writing-mode:vertical-rl;transform:rotate(180deg);gap:8px}
+.intro__pin-label{top:0;left:0;right:0;bottom:0;display:block}
+.intro__pin-label b{position:absolute;left:0;bottom:calc(100% + 12px)}
+.intro__pin-label span{position:absolute;right:calc(100% + 8px);bottom:0;writing-mode:vertical-rl;transform:rotate(180deg)}
+.intro__pin-label em{position:absolute;left:0;top:calc(100% + 14px)}
+
+/* 01: etiqueta separada del título */
+.dev .eyebrow--v{top:88px}
+.dev__center{top:122px!important}
+
+/* 03 Quiénes somos: sin animación, valores alternados texto / dibujo */
+.about__pin{height:auto!important}
+.about__sticky{position:relative!important;height:auto!important;min-height:0!important;display:block!important;padding:calc(var(--hdr,84px) + 22px) 0 56px!important;overflow:visible!important}
+.about .eyebrow--v{position:static!important;margin:0 18px 22px!important}
+.about__grid{display:block!important;width:calc(100% - 36px)!important}
+.about__value,.about__progress{display:none!important}
+.about .vg__list{display:block!important;margin:34px 0 0;padding:0!important;border:0!important}
+.about .vg__item{display:block!important;opacity:1!important;transform:none!important;padding:30px 0!important;border-top:1px solid #cbc5b6;cursor:default}
+.about .vg__item:before,.about .vg__item:after{display:none!important}
+.about .vg__i{display:none!important}
+.about .vg__item>div{display:grid;grid-template-columns:40% minmax(0,1fr);column-gap:18px;align-items:start}
+.about .vg__item>div>*{grid-column:2}
+.about .vg__mobile-sketch{grid-column:1!important;grid-row:1/span 4;align-self:center;display:block;width:100%;height:auto;aspect-ratio:1/1;margin:0}
+.about .vg__item:nth-child(even)>div{grid-template-columns:minmax(0,1fr) 40%}
+.about .vg__item:nth-child(even)>div>*{grid-column:1}
+.about .vg__item:nth-child(even) .vg__mobile-sketch{grid-column:2!important}
+.about .vg__item h3{margin:0 0 12px;font-size:30px;color:var(--ink)!important}
+.vg__m{display:block}
+.vg__m-label{margin:0 0 8px;font-size:9.5px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:#6f7478}
+.vg__m-num{display:flex;align-items:baseline;gap:8px;margin:0 0 10px;font-family:var(--display);font-size:40px;line-height:1;color:#9e771e}
+.vg__m-num small{font-family:var(--body);font-size:10.5px;letter-spacing:.2em;color:#8a8f91}
+.about .vg__mobile{margin:0;font-size:14px;line-height:1.7}
+
+/* 04 Contacto: tocar el texto y se pinta el edificio */
+.contact-hint,.draw__hint,.draw__pencil{display:none!important}
+.draw__paper{touch-action:auto}
+.draw__tap{display:block;margin:0 auto 14px;padding:6px 4px;border:0;background:linear-gradient(100deg,var(--ink) 38%,var(--gold) 50%,var(--ink) 62%) 100% 0/300% 100% no-repeat;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--ink);font-family:"Caveat",cursive;font-size:27px;font-weight:600;line-height:1.1;text-align:center;cursor:pointer;animation:tap-shine 2.4s ease-in-out infinite;transition:opacity .5s}
+@keyframes tap-shine{0%{background-position:100% 0}100%{background-position:0 0}}
+.contact.is-drawing .draw__tap{opacity:0;pointer-events:none}
+.draw__name{display:block;position:absolute;right:2%;top:3%;margin:0;text-align:right;font-family:var(--display);font-size:28px;line-height:1;color:var(--ink);opacity:0;transform:translateY(8px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out);pointer-events:none}
+.draw__name small{display:block;margin-bottom:6px;font-family:var(--body);font-size:9px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#9e771e}
+.contact.is-named .draw__name{opacity:1;transform:none}
+}
