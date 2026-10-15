@@ -5,10 +5,10 @@ const waLink = text => `${WA_BASE}?text=${encodeURIComponent(text)}`;
 
 // Brochures: pegar acá el link de Google Drive de cada uno (vacío = "disponible pronto").
 const projects = [
-  { name: 'Ulises I',   address: 'Ayacucho 3230',  area: 'La Perla', image: './ulises-1.webp', imageAlt: 'Render de la fachada de Ulises I',   brochure: '', soon: false },
-  { name: 'Ulises II',  address: 'Salta 714',      area: 'La Perla', image: './ulises-2.webp', imageAlt: 'Render de la fachada de Ulises II',  brochure: '', soon: false },
-  { name: 'Ulises III', address: 'España 1041',    area: 'La Perla', image: './ulises-3.webp', imageAlt: 'Render de la fachada de Ulises III', brochure: '', soon: false },
-  { name: 'Ulises IV',  address: 'Entre Ríos 2641', area: 'Chauvin', image: './ulises-4.webp', imageAlt: 'Render de la fachada de Ulises IV',  brochure: '', soon: true },
+  { name: 'Ulises I',   address: 'Ayacucho 3230',  area: 'La Perla', image: './ulises-1.webp', imageAlt: 'Render de la fachada de Ulises I',   brochure: 'https://drive.google.com/file/d/1R0ULkyhZIZ_J8sSDA87HNadlv-AkWVwu/view', soon: false },
+  { name: 'Ulises II',  address: 'Salta 714',      area: 'La Perla', image: './ulises-2.webp', imageAlt: 'Render de la fachada de Ulises II',  brochure: 'https://drive.google.com/file/d/16AvU-sjidWsPaB0AvP2pYNmXaNJPGawL/view', soon: false },
+  { name: 'Ulises III', address: 'España 1041',    area: 'La Perla', image: './ulises-3.webp', imageAlt: 'Render de la fachada de Ulises III', brochure: 'https://drive.google.com/file/d/1vK_0-EP9VOKW34vcC0ZmXYmcmtJr04Dr/view', soon: false },
+  { name: 'Ulises IV',  address: 'Entre Ríos 2641', area: 'Chauvin', image: './ulises-4.webp', imageAlt: 'Render de la fachada de Ulises IV',  brochure: 'https://drive.google.com/file/d/1Yri5knhGsn-CULjtU7SYT-980JMXwAtZ/view', soon: true },
 ];
 projects.forEach(p => { p.location = `${p.address} · Mar del Plata`; });
 const projectDescription = i => T().dev.projects[i];
@@ -204,20 +204,28 @@ const devControls = document.querySelector('.dev__controls');
 const devBtns = [...devControls.querySelectorAll('.dev__btn')];
 function renderDevControls(cx, cy, r1, baseAngle) {
   devControls.setAttribute('viewBox', `0 0 ${devSticky.clientWidth} ${devSticky.clientHeight}`);
-  // Dos botones redondos sobre el borde del disco; la flecha curva sigue el giro de la rueda.
-  const edge = r1 - 8;
-  const size = Math.max(22, Math.min(30, r1 * .1));
+  // Aro blanco continuo alrededor del disco; en cada botón el aro se ensancha y lo abraza (una sola pieza).
+  const disk = r1 - 8;
+  const ringW = Math.max(12, r1 * .055);
+  const size = Math.max(19, Math.min(27, r1 * .09));
   const deg = Math.PI / 180;
+  const ring = devControls.querySelector('.dev__rim-ring');
+  ring.setAttribute('cx', cx); ring.setAttribute('cy', cy);
+  ring.setAttribute('r', disk + ringW / 2 - 1);
+  ring.setAttribute('stroke-width', ringW);
   devBtns.forEach(btn => {
     const dir = Number(btn.dataset.dir);
-    const ang = baseAngle + dir * 40 * deg;
-    const [bx, by] = polar(cx, cy, edge, ang);
+    const ang = baseAngle + dir * 38 * deg;
+    const [bx, by] = polar(cx, cy, disk + ringW * .35, ang);
+    const lobe = devControls.querySelector(`.dev__rim-lobe[data-dir="${dir}"]`);
+    lobe.setAttribute('cx', bx); lobe.setAttribute('cy', by); lobe.setAttribute('r', size + ringW * .62);
     const circle = btn.querySelector('.dev__btn-shape');
-    circle.setAttribute('cx', bx);
-    circle.setAttribute('cy', by);
-    circle.setAttribute('r', size);
+    circle.setAttribute('cx', bx); circle.setAttribute('cy', by); circle.setAttribute('r', size);
+    const inset = btn.querySelector('.dev__btn-inset');
+    inset.setAttribute('cx', bx); inset.setAttribute('cy', by); inset.setAttribute('r', size);
     const k = size / 26;
-    btn.querySelector('.dev__btn-icon').setAttribute('transform', `translate(${bx} ${by}) rotate(${baseAngle / deg}) scale(${k * 1.9}) translate(-5.5 0)`);
+    // La flecha sigue la tangente de la rueda en la posición de cada botón (el sentido en que gira).
+    btn.querySelector('.dev__btn-icon').setAttribute('transform', `translate(${bx} ${by}) rotate(${ang / deg}) scale(${k * 1.75}) translate(-5 0)`);
   });
 }
 function spinDev(dir) {

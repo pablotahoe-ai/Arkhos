@@ -9,13 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Tenor+Sans&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css?v=21" />
-    <link rel="stylesheet" href="./hero.css?v=21" />
-    <link rel="stylesheet" href="./sections.css?v=21" />
-    <link rel="stylesheet" href="./extras.css?v=21" />
-    <link rel="stylesheet" href="./fit.css?v=21" />
-    <script src="./i18n.js?v=21" defer></script>
-    <script src="./script.js?v=21" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=24" />
+    <link rel="stylesheet" href="./hero.css?v=24" />
+    <link rel="stylesheet" href="./sections.css?v=24" />
+    <link rel="stylesheet" href="./extras.css?v=24" />
+    <link rel="stylesheet" href="./fit.css?v=24" />
+    <script src="./i18n.js?v=24" defer></script>
+    <script src="./script.js?v=24" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#contenido" data-i18n="skip">Saltar al contenido</a>
@@ -104,8 +104,17 @@
             <p class="dev__desc" id="dev-desc"></p>
           </div>
           <svg class="dev__controls" xmlns="http://www.w3.org/2000/svg">
-            <g class="dev__btn" data-dir="-1" role="button" tabindex="0" aria-label="Proyecto anterior"><circle class="dev__btn-shape"/><path class="dev__btn-icon" d="M4 9 Q9 0 2 -8 M6.7 -6.4 L2 -8 L3 -3.1"/></g>
-            <g class="dev__btn" data-dir="1" role="button" tabindex="0" aria-label="Proyecto siguiente"><circle class="dev__btn-shape"/><path class="dev__btn-icon" d="M4 -9 Q9 0 2 8 M6.7 6.4 L2 8 L3 3.1"/></g>
+            <defs id="dev-btn-defs">
+              <linearGradient id="neu-face" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dedbd3"/><stop offset=".55" stop-color="#eeebe5"/><stop offset="1" stop-color="#fbfaf7"/></linearGradient><radialGradient id="neu-inset" cx=".38" cy=".34" r=".7"><stop offset=".72" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#1e262d" stop-opacity=".22"/></radialGradient>
+              <linearGradient id="neu-face-on" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9e6df"/><stop offset="1" stop-color="#ffffff"/></linearGradient>
+              <filter id="neu-shadow" x="-60%" y="-60%" width="220%" height="220%"><feDropShadow dx="-3" dy="-3" stdDeviation="3" flood-color="#ffffff" flood-opacity=".9"/><feDropShadow dx="4" dy="5" stdDeviation="5" flood-color="#1e262d" flood-opacity=".28"/></filter>
+              <filter id="rim-goo" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/><feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -11"/></filter>
+              <filter id="rim-shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#1e262d" flood-opacity=".22"/></filter>
+              <filter id="neu-collar" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#1e262d" flood-opacity=".35"/></filter>
+            </defs>
+            <g class="dev__rim" filter="url(#rim-shadow)"><g filter="url(#rim-goo)"><circle class="dev__rim-ring"/><circle class="dev__rim-lobe" data-dir="-1"/><circle class="dev__rim-lobe" data-dir="1"/></g></g>
+            <g class="dev__btn" data-dir="-1" role="button" tabindex="0" aria-label="Proyecto anterior"><circle class="dev__btn-shape"/><circle class="dev__btn-inset"/><path class="dev__btn-icon" d="M4 9 Q9 0 2 -8 M6.7 -6.4 L2 -8 L3 -3.1"/></g>
+            <g class="dev__btn" data-dir="1" role="button" tabindex="0" aria-label="Proyecto siguiente"><circle class="dev__btn-shape"/><circle class="dev__btn-inset"/><path class="dev__btn-icon" d="M4 -9 Q9 0 2 8 M6.7 6.4 L2 8 L3 3.1"/></g>
           </svg>
         </div>
       </section>

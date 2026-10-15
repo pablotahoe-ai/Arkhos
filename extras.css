@@ -153,3 +153,26 @@
 .dev__btn:active .dev__btn-shape{fill:#b8860f}
 .dev__desc{margin-bottom:0}
 .dev__wheel g{cursor:pointer}
+
+/* v22 — botones de la rueda neumórficos, sobresaliendo del borde del disco */
+.dev__btn .dev__btn-collar{fill:#f4f2ee;filter:url(#neu-collar)}
+.dev__btn .dev__btn-shape{fill:url(#neu-face);stroke:rgba(255,255,255,.9);stroke-width:1;filter:url(#neu-shadow);transition:fill .4s}
+.dev__btn .dev__btn-icon{stroke:#2e3740;stroke-width:1.3}
+.dev__btn:hover .dev__btn-shape,.dev__btn:focus-visible .dev__btn-shape{fill:url(#neu-face-on);stroke:var(--gold)}
+.dev__btn:hover .dev__btn-icon,.dev__btn:focus-visible .dev__btn-icon{stroke:#9e771e}
+.dev__btn:active .dev__btn-shape{filter:none}
+
+/* v23 — botón hundido dentro del borde claro (el aro lo abraza sin costura) */
+.dev__btn .dev__btn-collar{fill:#f4f2ee;filter:none}
+.dev__btn .dev__btn-shape{fill:url(#neu-face);stroke:#ffffff;stroke-width:1.2;filter:none}
+.dev__btn .dev__btn-inset{fill:url(#neu-inset);pointer-events:none}
+.dev__btn:hover .dev__btn-shape,.dev__btn:focus-visible .dev__btn-shape{fill:url(#neu-face);stroke:var(--gold)}
+
+/* v24 — aro blanco continuo que abraza los botones (como la referencia) */
+.dev__rim{pointer-events:none}
+.dev__rim-ring{fill:none;stroke:#f7f6f3}
+.dev__rim-lobe{fill:#f7f6f3}
+.dev__disk{box-shadow:0 30px 70px rgba(30,38,45,.22)}
+.dev__btn .dev__btn-shape{stroke:rgba(46,55,64,.1);stroke-width:1}
+.dev__btn:hover .dev__btn-shape,.dev__btn:focus-visible .dev__btn-shape{stroke:rgba(46,55,64,.1)}
+.dev__btn:hover .dev__btn-icon,.dev__btn:focus-visible .dev__btn-icon{stroke:#9e771e}
