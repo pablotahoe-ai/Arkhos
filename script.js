@@ -184,7 +184,7 @@ function renderDev() {
     w.shadow.style.opacity = String(near * .9);
     const rm = inner + (outer - inner) * .55;
     const [mx, my] = polar(cx, cy, rm, mid);
-    const size = Math.max(outer - inner, 2 * outer * Math.sin(step / 2)) * 1.15 * (window.matchMedia('(max-width: 720px)').matches ? 1.14 : 1);
+    const size = Math.max(outer - inner, 2 * outer * Math.sin(step / 2)) * 1.15 * (window.matchMedia('(max-width: 720px)').matches ? 1.22 : 1);
     w.img.setAttribute('x', mx - size / 2);
     w.img.setAttribute('y', my - size / 2);
     w.img.setAttribute('width', size);
@@ -211,24 +211,23 @@ function onTilt(event) {
   if (!window.matchMedia('(max-width: 720px)').matches) return;
   const g = Math.max(-25, Math.min(25, event.gamma || 0));
   const b = Math.max(-25, Math.min(25, (event.beta || 0) - 45));
-  tiltTX = g / 25 * 16;
-  tiltTY = b / 25 * 16;
+  tiltTX = g / 25 * 24;
+  tiltTY = b / 25 * 24;
   if (!tiltRaf) tiltRaf = requestAnimationFrame(tiltLoop);
 }
-function enableTilt() {
-  if (typeof DeviceOrientationEvent === 'undefined') return;
-  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-    DeviceOrientationEvent.requestPermission().then(r => { if (r === 'granted') window.addEventListener('deviceorientation', onTilt); }).catch(() => {});
-  } else {
-    window.addEventListener('deviceorientation', onTilt);
-  }
+// iPhone: el permiso solo se puede pedir con un toque (no con un deslizamiento), así que se reintenta en cada toque hasta que responda.
+let tiltAsked = false;
+function askTilt() {
+  if (tiltAsked) return;
+  DeviceOrientationEvent.requestPermission().then(r => {
+    tiltAsked = true;
+    window.removeEventListener('click', askTilt, true);
+    if (r === 'granted') window.addEventListener('deviceorientation', onTilt);
+  }).catch(() => {});
 }
-if (window.matchMedia('(max-width: 720px)').matches) {
-  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-    window.addEventListener('touchend', enableTilt, { once: true });
-  } else {
-    enableTilt();
-  }
+if (window.matchMedia('(max-width: 720px)').matches && typeof DeviceOrientationEvent !== 'undefined') {
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') window.addEventListener('click', askTilt, true);
+  else window.addEventListener('deviceorientation', onTilt);
 }
 
 // Botones curvos dentro del aro: giran la rueda un lugar, sin fin.
