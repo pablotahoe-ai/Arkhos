@@ -810,8 +810,8 @@ const drawPaper = document.querySelector('#draw-paper');
 const drawCanvas = document.querySelector('#draw-canvas');
 const drawCtx = drawCanvas.getContext('2d');
 const drawGuide = drawPaper.querySelector('.draw__guide');
-const drawStart = document.querySelector('#draw-start');
 const drawPencil = document.querySelector('#draw-pencil');
+const drawRender = document.querySelector('#draw-render');
 const drawMeter = document.querySelector('#draw-meter');
 const drawAgain = document.querySelector('#draw-again');
 const maskCanvas = document.createElement('canvas');
@@ -854,7 +854,7 @@ function paintDraw() {
   drawCtx.globalCompositeOperation = 'source-over';
   drawCtx.drawImage(maskCanvas, 0, 0);
   drawCtx.globalCompositeOperation = 'source-in';
-  drawCtx.drawImage(drawGuide, 0, 0, w, h);
+  drawCtx.drawImage(drawRender, 0, 0, w, h); // se pinta directo en color
   drawCtx.globalCompositeOperation = 'source-over';
 }
 function markCells(x, y, radius) {
@@ -898,16 +898,8 @@ function startDrawing() {
   if (!drawCells) computeCells();
   contactSection.classList.add('is-drawing');
 }
-drawStart.addEventListener('click', event => {
-  event.stopPropagation();
-  startDrawing();
-  const p = localPoint(event);
-  drawLast = null;
-  strokeTo(p.x, p.y);
-});
 drawPaper.addEventListener('pointerdown', event => {
   if (drawFinished) return;
-  if (event.target === drawStart || drawStart.contains(event.target)) return;
   startDrawing();
   drawDown = true;
   drawLast = null;

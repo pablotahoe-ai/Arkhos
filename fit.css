@@ -128,24 +128,24 @@ html{scroll-snap-type:none}
 .draw__meter{position:relative;width:min(320px,100%);height:2px;margin-top:min(34px,4vh);background:rgba(46,55,64,.12);overflow:hidden}
 .draw__meter i{position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease-out)}
 .draw{position:relative}
-.draw__paper{position:relative;width:min(100%,calc((100vh - var(--hdr) - 14vh) * 890 / 648));aspect-ratio:890/648;margin-inline:auto;cursor:crosshair;touch-action:none;user-select:none;-webkit-user-select:none}
-.draw__paper.is-hover,.contact.is-drawing .draw__paper{cursor:none}
+.draw__paper{position:relative;width:min(100%,calc((100vh - var(--hdr) - 14vh) * 1176 / 1300));aspect-ratio:1176/1300;margin-inline:auto;cursor:none;touch-action:none;user-select:none;-webkit-user-select:none}
+.draw__paper,.draw__paper *{cursor:none!important}
 .draw__guide{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:.24;pointer-events:none;transition:opacity 1s var(--ease-out)}
 .contact.is-drawing .draw__guide{opacity:.16}
 .contact.is-sketched .draw__guide{opacity:0}
+.draw__shine{position:absolute;inset:0;pointer-events:none;-webkit-mask:url(./contacto-lineas.webp) center/contain no-repeat;mask:url(./contacto-lineas.webp) center/contain no-repeat;background:linear-gradient(115deg,transparent 42%,rgba(205,152,24,.95) 50%,transparent 58%) no-repeat;background-size:300% 100%;background-position:100% 0;animation:draw-shine 2s ease-in-out infinite;transition:opacity .5s}
+.contact.is-drawing .draw__shine{opacity:0;animation:none}
+@keyframes draw-shine{0%{background-position:100% 0}50%,100%{background-position:0 0}}
 .draw__canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;transition:opacity 1.6s var(--ease-out)}
 .contact.is-rendered .draw__canvas{opacity:0}
-.draw__render{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;mix-blend-mode:multiply;pointer-events:none;transform:scale(.985);transition:opacity 1.8s var(--ease-out),transform 2.4s var(--ease-out)}
+.draw__render{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;pointer-events:none;transform:scale(.985);transition:opacity 1.8s var(--ease-out),transform 2.4s var(--ease-out)}
 .contact.is-rendered .draw__render{opacity:1;transform:none}
-.draw__start{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:14px;padding:14px 22px 14px 16px;border:1px solid var(--ink);border-radius:999px;background:rgba(255,255,255,.92);color:var(--ink);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;box-shadow:0 18px 40px rgba(46,55,64,.14);cursor:pointer;transition:opacity .5s,transform .5s var(--ease-out),background-color .4s}
-.draw__start:hover{background:#fff;transform:translate(-50%,-50%) scale(1.03)}
-.draw__start-dot{position:relative;width:12px;height:12px;border-radius:50%;background:var(--gold)}
-.draw__start-dot:after{content:"";position:absolute;inset:-6px;border:1px solid var(--gold);border-radius:50%;animation:intro-pulse 2.2s var(--ease-out) infinite}
-.contact.is-drawing .draw__start{opacity:0;pointer-events:none;transform:translate(-50%,-30%)}
+.draw__hint{position:absolute;left:-13%;top:13%;white-space:nowrap;margin:0;font-family:"Caveat",cursive;font-weight:600;font-size:clamp(24px,2.3vw,38px);line-height:1.05;color:#4a5058;transform:rotate(-5deg);pointer-events:none;opacity:.88;transition:opacity .6s var(--ease-out)}
+.contact.is-drawing .draw__hint{opacity:0}
 .draw__pencil{position:absolute;left:0;top:0;width:40px;height:40px;pointer-events:none;opacity:0;transition:opacity .25s;filter:drop-shadow(0 4px 6px rgba(0,0,0,.18))}
 .draw__paper.is-hover .draw__pencil{opacity:1}
 .contact.is-sketched .draw__pencil{opacity:0!important}
-.draw__ground{display:flex;justify-content:space-between;width:min(100%,calc((100vh - var(--hdr) - 14vh) * 890 / 648));margin:6px auto 0;padding-top:12px;border-top:1px solid #cfcac0;font-size:9.5px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:#8a8f91}
+.draw__ground{display:flex;justify-content:space-between;width:min(100%,calc((100vh - var(--hdr) - 14vh) * 1176 / 1300));margin:6px auto 0;padding-top:12px;border-top:1px solid #cfcac0;font-size:9.5px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:#8a8f91}
 .contact .contact__final{opacity:0;transform:translateY(24px);transition:opacity 1.2s var(--ease-out) .3s,transform 1.2s var(--ease-out) .3s;pointer-events:none}
 .contact.is-done .contact__final{opacity:1;transform:none;pointer-events:auto}
 .contact__final-actions{display:flex;align-items:center;gap:26px;flex-wrap:wrap;justify-content:center}

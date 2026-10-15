@@ -59,7 +59,7 @@ const I18N = {
       title: 'Charlemos sobre<br /><em>tu proyecto.</em>',
       lead: 'Un buen proyecto empieza con una buena charla.',
       hint: 'Tomá el lápiz y dibujá tu proyecto sobre el boceto.',
-      start: 'Picá aquí y creá tu proyecto',
+      start: 'Descubrí tu<br>próximo proyecto…<br>y contactanos',
       again: 'Volver a dibujar',
       pieces: [
         { name: 'Confianza', tag: 'Base · los cimientos de cada proyecto' },
@@ -135,7 +135,7 @@ const I18N = {
       title: "Let's talk about<br /><em>your project.</em>",
       lead: 'A good project starts with a good conversation.',
       hint: 'Take the pencil and draw your project over the sketch.',
-      start: 'Tap here and create your project',
+      start: 'Discover your<br>next project…<br>and contact us',
       again: 'Draw again',
       pieces: [
         { name: 'Trust', tag: 'Base · the foundation of every project' },
@@ -211,7 +211,7 @@ const I18N = {
       title: 'Vamos conversar sobre<br /><em>o seu projeto.</em>',
       lead: 'Um bom projeto começa com uma boa conversa.',
       hint: 'Pegue o lápis e desenhe o seu projeto sobre o esboço.',
-      start: 'Toque aqui e crie o seu projeto',
+      start: 'Descubra o seu<br>próximo projeto…<br>e fale conosco',
       again: 'Desenhar de novo',
       pieces: [
         { name: 'Confiança', tag: 'Base · os alicerces de cada projeto' },
