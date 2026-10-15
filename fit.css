@@ -178,7 +178,10 @@ html{scroll-snap-type:none!important;scroll-behavior:auto!important}
 
 /* v27 — textos más grandes (desktop) */
 @media(min-width:901px){
-.eyebrow--v{font-size:17px;font-weight:600;background:linear-gradient(100deg,currentColor 42%,#fff3c4 50%,currentColor 58%) 100% 0/300% 100% no-repeat;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:eyebrow-shine 5s ease-in-out infinite}
+.eyebrow--v{font-size:17px;font-weight:600;background:linear-gradient(100deg,currentColor 42%,var(--shine,#fff3c4) 50%,currentColor 58%) 100% 0/300% 100% no-repeat;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:eyebrow-shine 5s ease-in-out infinite}
+.dev .eyebrow--v,.about .eyebrow--v,.contact .eyebrow--v{color:var(--ink);--shine:var(--gold)}
+.eyebrow--v:before{content:"";width:44px;height:1px;background:currentColor;opacity:.9}
+.eyebrow--v:after{background:currentColor}
 @keyframes eyebrow-shine{0%,70%{background-position:100% 0}100%{background-position:0 0}}
 .dev__eyebrow{font-size:clamp(11.5px,calc(var(--r1) * .05),13.5px)}
 .dev__location{font-size:clamp(13px,calc(var(--r1) * .058),16px);letter-spacing:.16em;white-space:nowrap}
