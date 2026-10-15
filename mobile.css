@@ -10,6 +10,9 @@
 .intro__pin-label span{position:absolute;right:calc(100% + 8px);bottom:0;writing-mode:vertical-rl;transform:rotate(180deg)}
 .intro__pin-label em{position:absolute;left:0;top:calc(100% + 14px)}
 
+/* Hero: flecha hacia arriba (deslizar hacia arriba) */
+.intro__scroll-ring{transform:rotate(180deg)}
+
 /* 01: etiqueta separada del título */
 .dev .eyebrow--v{top:88px}
 .dev__center{top:122px!important}
