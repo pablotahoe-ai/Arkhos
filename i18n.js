@@ -38,7 +38,7 @@ const I18N = {
       pending: 'Archivo en preparación',
       slide: 'Deslizá',
     },
-    gallery: { empty: 'Archivo visual en preparación', top: 'Grupo Arkhos / Desarrollos concluidos', status: 'Finalizado y entregado', back: 'Deslizá para volver', photo: 'Foto' },
+    gallery: { empty: 'Estamos preparando el video de esta obra. En breve vas a poder disfrutarla.', top: 'Grupo Arkhos / Desarrollos concluidos', status: 'Finalizado y entregado', back: 'Deslizá para volver', photo: 'Foto' },
     about: {
       eyebrow: '03 / Quiénes somos',
       title: 'Somos un grupo de inversión que desarrolla <em>unidades funcionales.</em>',
@@ -115,7 +115,7 @@ const I18N = {
       pending: 'Images coming soon',
       slide: 'Drag',
     },
-    gallery: { empty: 'Images coming soon', top: 'Grupo Arkhos / Completed developments', status: 'Finished and delivered', back: 'Drag to go back', photo: 'Photo' },
+    gallery: { empty: 'We are preparing the video of this project. You will be able to enjoy it very soon.', top: 'Grupo Arkhos / Completed developments', status: 'Finished and delivered', back: 'Drag to go back', photo: 'Photo' },
     about: {
       eyebrow: '03 / About us',
       title: 'We are an investment group that develops <em>functional units.</em>',
@@ -192,7 +192,7 @@ const I18N = {
       pending: 'Imagens em preparação',
       slide: 'Arraste',
     },
-    gallery: { empty: 'Imagens em preparação', top: 'Grupo Arkhos / Empreendimentos concluídos', status: 'Concluído e entregue', back: 'Arraste para voltar', photo: 'Foto' },
+    gallery: { empty: 'Estamos preparando o vídeo desta obra. Em breve você poderá aproveitá-la.', top: 'Grupo Arkhos / Empreendimentos concluídos', status: 'Concluído e entregue', back: 'Arraste para voltar', photo: 'Foto' },
     about: {
       eyebrow: '03 / Quem somos',
       title: 'Somos um grupo de investimento que desenvolve <em>unidades funcionais.</em>',

@@ -19,9 +19,9 @@ const SKETCHES = SKETCH_FILES.map(f => `<img src="./${f}.webp" alt="" loading="l
 SKETCH_FILES.forEach(f => { const i = new Image(); i.src = `./${f}.webp`; });
 
 const delivered = [
-  { name: 'Lipari Libertad', photos: ['libertad-1.webp', 'libertad-2.webp', 'libertad-3.webp'] },
+  { name: 'Lipari Libertad', photos: ['libertad-1.webp', 'libertad-2.webp', 'libertad-3.webp'], video: 'obra-libertad.mp4', poster: 'obra-libertad.webp', address: '' },
   { name: 'Lipari La Rioja', photos: ['rioja-1.webp', 'rioja-2.webp', 'rioja-3.webp'], video: 'obra-rioja.mp4', poster: 'obra-rioja.webp', address: '' },
-  { name: 'Lipari Perla', photos: ['perla-1.webp', 'perla-2.webp', 'perla-3.webp'] },
+  { name: 'Lipari Perla', photos: ['perla-1.webp', 'perla-2.webp', 'perla-3.webp'], video: 'obra-perla.mp4', poster: 'obra-perla.webp', address: '' },
   { name: 'KIRON', photos: [] },
 ];
 
@@ -367,7 +367,7 @@ function startGalleryVideo(project) {
   galleryVideo.hidden = !has;
   gallerySound.hidden = !has;
   galleryPhoto.hidden = has || !project.photos.length;
-  if (!has) { galleryVideo.pause(); galleryVideo.removeAttribute('src'); return; }
+  if (!has) { galleryVideo.pause(); galleryVideo.removeAttribute('src'); showLoader(false); return; }
   galleryEmpty.hidden = true;
   galleryVideo.poster = galleryImagePath(project.poster || project.photos[0] || '');
   galleryVideo.src = galleryImagePath(project.video);
@@ -378,6 +378,21 @@ function startGalleryVideo(project) {
   if (p && p.catch) p.catch(() => { galleryVideo.muted = true; setSoundIcon(); galleryVideo.play().catch(() => {}); });
   setSoundIcon();
 }
+// Cargando: el logo de Arkhos late mientras el video no está listo.
+const galleryLoader = document.querySelector('#gallery-loader');
+const showLoader = on => galleryLoader.classList.toggle('is-on', on);
+['loadstart', 'waiting', 'stalled'].forEach(ev => galleryVideo.addEventListener(ev, () => { if (!galleryVideo.hidden) showLoader(true); }));
+['playing', 'canplay'].forEach(ev => galleryVideo.addEventListener(ev, () => showLoader(false)));
+// Los videos se descargan en segundo plano, uno por uno, después de que la web terminó de cargar.
+window.addEventListener('load', () => {
+  const queue = delivered.filter(d => d.video).map(d => galleryImagePath(d.video));
+  const next = () => {
+    const url = queue.shift();
+    if (!url) return;
+    fetch(url, { priority: 'low' }).then(r => r.blob()).catch(() => {}).finally(() => setTimeout(next, 500));
+  };
+  setTimeout(next, 2500);
+});
 gallerySound.addEventListener('click', () => {
   galleryVideo.muted = !galleryVideo.muted;
   if (galleryVideo.paused) galleryVideo.play().catch(() => {});
@@ -386,6 +401,7 @@ gallerySound.addEventListener('click', () => {
 function finishGalleryClose() {
   if (!gallery.open) return;
   galleryVideo.pause();
+  showLoader(false);
   gallery.close();
   gallery.classList.remove('is-open');
   document.body.style.overflow = bodyOverflowBeforeGallery;
