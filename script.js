@@ -20,7 +20,7 @@ SKETCH_FILES.forEach(f => { const i = new Image(); i.src = `./${f}.webp`; });
 
 const delivered = [
   { name: 'Lipari Libertad', photos: ['libertad-1.webp', 'libertad-2.webp', 'libertad-3.webp'] },
-  { name: 'Lipari La Rioja', photos: ['rioja-1.webp', 'rioja-2.webp', 'rioja-3.webp'] },
+  { name: 'Lipari La Rioja', photos: ['rioja-1.webp', 'rioja-2.webp', 'rioja-3.webp'], video: 'obra-rioja.mp4', poster: 'obra-rioja.webp', address: '' },
   { name: 'Lipari Perla', photos: ['perla-1.webp', 'perla-2.webp', 'perla-3.webp'] },
   { name: 'KIRON', photos: [] },
 ];
@@ -302,8 +302,9 @@ const galleryPhoto = document.querySelector('#gallery-photo');
 const galleryEmpty = document.querySelector('#gallery-empty');
 const galleryTitle = document.querySelector('#gallery-title');
 const galleryCount = document.querySelector('#gallery-count');
-const galleryPrev = document.querySelector('#gallery-prev');
-const galleryNext = document.querySelector('#gallery-next');
+const galleryVideo = document.querySelector('#gallery-video');
+const gallerySound = document.querySelector('#gallery-sound');
+const galleryAddress = document.querySelector('#gallery-address');
 const galleryReturn = document.querySelector('#gallery-return');
 let activeDelivered = null;
 let activePhotoIndex = 0;
@@ -321,9 +322,7 @@ function renderGalleryPhoto() {
   const hasPhotos = photos.length > 0;
   galleryPhoto.hidden = !hasPhotos;
   galleryEmpty.hidden = hasPhotos;
-  galleryPrev.hidden = photos.length < 2;
-  galleryNext.hidden = photos.length < 2;
-  galleryCount.textContent = hasPhotos ? `${String(activePhotoIndex + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}` : T().obras.pending;
+  galleryCount.textContent = hasPhotos || activeDelivered.video ? '' : T().obras.pending;
   if (hasPhotos) {
     galleryPhoto.src = galleryImagePath(photos[activePhotoIndex]);
     galleryPhoto.alt = `${T().gallery.photo} ${activePhotoIndex + 1} · ${activeDelivered.name}`;
@@ -346,6 +345,11 @@ function openDeliveredGallery(project, opener, resetTrack) {
   gallery.style.setProperty('--origin-y', `${box.top + box.height / 2}px`);
   galleryTitle.textContent = project.name;
   renderGalleryPhoto();
+  const addr = project.address || '';
+  galleryAddress.hidden = !addr;
+  galleryAddress.textContent = addr ? `${addr} · Mar del Plata ↗` : '';
+  galleryAddress.href = addr ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${addr}, Mar del Plata, Buenos Aires`)}` : '#';
+  startGalleryVideo(project);
   bodyOverflowBeforeGallery = document.body.style.overflow;
   document.body.style.overflow = 'hidden';
   gallery.showModal();
@@ -353,8 +357,35 @@ function openDeliveredGallery(project, opener, resetTrack) {
   setTimeout(() => galleryReturn.focus(), 500);
 }
 
+// Video de la obra (con música): arranca al abrir; el botón de abajo apaga o prende la música.
+function setSoundIcon() {
+  gallerySound.classList.toggle('is-muted', galleryVideo.muted);
+  gallerySound.setAttribute('aria-label', galleryVideo.muted ? 'Prender la música' : 'Apagar la música');
+}
+function startGalleryVideo(project) {
+  const has = !!project.video;
+  galleryVideo.hidden = !has;
+  gallerySound.hidden = !has;
+  galleryPhoto.hidden = has || !project.photos.length;
+  if (!has) { galleryVideo.pause(); galleryVideo.removeAttribute('src'); return; }
+  galleryEmpty.hidden = true;
+  galleryVideo.poster = galleryImagePath(project.poster || project.photos[0] || '');
+  galleryVideo.src = galleryImagePath(project.video);
+  galleryVideo.muted = false;
+  galleryVideo.volume = .8;
+  galleryVideo.currentTime = 0;
+  const p = galleryVideo.play();
+  if (p && p.catch) p.catch(() => { galleryVideo.muted = true; setSoundIcon(); galleryVideo.play().catch(() => {}); });
+  setSoundIcon();
+}
+gallerySound.addEventListener('click', () => {
+  galleryVideo.muted = !galleryVideo.muted;
+  if (galleryVideo.paused) galleryVideo.play().catch(() => {});
+  setSoundIcon();
+});
 function finishGalleryClose() {
   if (!gallery.open) return;
+  galleryVideo.pause();
   gallery.close();
   gallery.classList.remove('is-open');
   document.body.style.overflow = bodyOverflowBeforeGallery;
@@ -376,12 +407,8 @@ function closeDeliveredGallery() {
 }
 
 gallery.addEventListener('cancel', event => { event.preventDefault(); closeDeliveredGallery(); });
-galleryPrev.addEventListener('click', () => { activePhotoIndex = (activePhotoIndex - 1 + activeDelivered.photos.length) % activeDelivered.photos.length; renderGalleryPhoto(); });
-galleryNext.addEventListener('click', () => { activePhotoIndex = (activePhotoIndex + 1) % activeDelivered.photos.length; renderGalleryPhoto(); });
 gallery.addEventListener('keydown', event => {
   if (!activeDelivered || activeDelivered.photos.length < 2) return;
-  if (event.key === 'ArrowLeft') galleryPrev.click();
-  if (event.key === 'ArrowRight') galleryNext.click();
 });
 
 // Volver: se arrastra el círculo hacia la izquierda (o flecha izquierda / Escape).
