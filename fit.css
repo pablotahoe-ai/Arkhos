@@ -187,3 +187,7 @@ html{scroll-snap-type:none!important;scroll-behavior:auto!important}
 .dev__location{font-size:clamp(13px,calc(var(--r1) * .058),16px);letter-spacing:.16em;white-space:nowrap}
 .dev__desc{font-size:clamp(17px,calc(var(--r1) * .088),24px)}
 }
+
+/* v35 — imagen del proyecto abierto: entera, proporcional y anclada abajo (vereda siempre visible) */
+.dialog-image{height:auto}
+.dialog-image img{height:auto;max-height:min(50vh,560px);object-fit:cover;object-position:center bottom}
