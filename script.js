@@ -109,7 +109,8 @@ const devWedges = DEV_RING.map((project, i) => {
   wrap.append(g, edge);
   devWedgesGroup.append(wrap);
   wrap.style.cursor = 'pointer';
-  wrap.addEventListener('click', () => openProjectDialog(project));
+  // Solo abre el proyecto que está al frente de la rueda; los de fondo no responden.
+  wrap.addEventListener('click', () => { if (devWedges[i] && devWedges[i].k < .5) openProjectDialog(project); });
   return { wrap, clipPath, img, veil, edge, shadow, k: 0 };
 });
 
@@ -191,6 +192,7 @@ function renderDev() {
     w.img.setAttribute('height', size);
     w.veil.style.opacity = String(Math.min(.62, k * .2));
     w.wrap.style.opacity = String(Math.max(.14, 1 - k * .24));
+    w.wrap.style.cursor = k < .5 ? 'pointer' : 'default';
   });
   // Los más cercanos se dibujan encima.
   [...devWedges].sort((a, b) => b.k - a.k).forEach(w => devWedgesGroup.append(w.wrap));
