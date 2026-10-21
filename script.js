@@ -51,7 +51,9 @@ function openProjectDialog(project) {
   document.querySelector('#dialog-img').alt = project.imageAlt;
   document.querySelector('#dialog-status').textContent = project.soon ? `${T().dev.status} · ${T().dev.soon}` : T().dev.status;
   document.querySelector('#dialog-title').textContent = project.name;
-  document.querySelector('#dialog-address').textContent = `${project.address} · ${project.area} · Mar del Plata`;
+  const dialogAddress = document.querySelector('#dialog-address');
+  dialogAddress.textContent = `${project.address} · ${project.area} · Mar del Plata ↗`;
+  dialogAddress.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${project.address}, Mar del Plata, Buenos Aires`)}`;
   document.querySelector('#dialog-description').textContent = projectDescription(i);
   dialogBrochure.href = project.brochure || '#';
   dialogBrochure.classList.toggle('is-pending', !project.brochure);

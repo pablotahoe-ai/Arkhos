@@ -211,3 +211,4 @@ html{scroll-snap-type:none!important;scroll-behavior:auto!important}
 @keyframes gl-breathe{0%,100%{opacity:.45;transform:scale(.94)}50%{opacity:1;transform:scale(1)}}
 @keyframes gl-spin{to{transform:rotate(360deg)}}
 .delivered-gallery__empty p{max-width:min(520px,82vw);margin:0 auto;text-align:center;font-family:var(--display);font-size:clamp(20px,2vw,28px);line-height:1.35;letter-spacing:0;text-transform:none;color:#e6e0d2}
+.dialog-address{text-decoration:none;width:fit-content}.dialog-address:hover{color:var(--ink)}
