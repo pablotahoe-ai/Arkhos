@@ -133,7 +133,9 @@ html{scroll-snap-type:none}
 .draw__guide{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:.24;pointer-events:none;transition:opacity 1s var(--ease-out)}
 .contact.is-drawing .draw__guide{opacity:.16}
 .contact.is-sketched .draw__guide{opacity:0}
-.draw__shine{position:absolute;inset:0;pointer-events:none;-webkit-mask:url(./contacto-lineas.webp) center/contain no-repeat;mask:url(./contacto-lineas.webp) center/contain no-repeat;background:linear-gradient(115deg,transparent 42%,rgba(205,152,24,.95) 50%,transparent 58%) no-repeat;background-size:300% 100%;background-position:100% 0;animation:draw-shine 2s ease-in-out infinite;transition:opacity .5s}
+.draw__shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 42%,rgba(205,152,24,.95) 50%,transparent 58%) no-repeat;background-size:300% 100%;background-position:100% 0;animation:draw-shine 2s ease-in-out infinite;transition:opacity .5s}
+.contact.is-near .draw__shine{-webkit-mask:url(./contacto-lineas.webp) center/contain no-repeat;mask:url(./contacto-lineas.webp) center/contain no-repeat}
+.contact:not(.is-near) .draw__shine{display:none}
 .contact.is-drawing .draw__shine{opacity:0;animation:none}
 @keyframes draw-shine{0%{background-position:100% 0}50%,100%{background-position:0 0}}
 .draw__canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;transition:opacity 1.6s var(--ease-out)}

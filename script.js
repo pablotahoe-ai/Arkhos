@@ -16,7 +16,16 @@ const projectDescription = i => T().dev.projects[i];
 // Dibujos a lápiz de cada valor (en el orden de la lista).
 const SKETCH_FILES = ['valor-transparencia', 'valor-compromiso', 'valor-cercania', 'valor-calidad', 'valor-respaldo'];
 const SKETCHES = SKETCH_FILES.map(f => `<img src="./${f}.webp" alt="" loading="lazy" draggable="false" />`);
-SKETCH_FILES.forEach(f => { const i = new Image(); i.src = `./${f}.webp`; });
+// Imágenes de abajo (valores y contacto): se bajan recién cuando el visitante se acerca a esas secciones.
+const whenNear = (selector, fn) => {
+  const el = document.querySelector(selector);
+  if (!el) return;
+  if (!('IntersectionObserver' in window)) { fn(el); return; }
+  const io = new IntersectionObserver(entries => { if (entries.some(e => e.isIntersecting)) { io.disconnect(); fn(el); } }, { rootMargin: '1500px 0px' });
+  io.observe(el);
+};
+whenNear('#nosotros', () => SKETCH_FILES.forEach(f => { const i = new Image(); i.src = `./${f}.webp`; }));
+whenNear('#contacto', el => el.classList.add('is-near'));
 
 const delivered = [
   { name: 'Lipari Libertad', photos: ['libertad-1.webp', 'libertad-2.webp', 'libertad-3.webp'], video: 'obra-libertad.mp4', poster: 'obra-libertad.webp', address: '' },
