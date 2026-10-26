@@ -6,8 +6,8 @@ const waLink = text => `${WA_BASE}?text=${encodeURIComponent(text)}`;
 // Brochures: pegar acá el link de Google Drive de cada uno (vacío = "disponible pronto").
 const projects = [
   { name: 'Ulises I',   address: 'Ayacucho 3230',  area: 'La Perla', image: './ulises-1.webp', openImage: './ulises-1-abierto.webp', imageAlt: 'Render de la fachada de Ulises I',   brochure: 'https://drive.google.com/file/d/1R0ULkyhZIZ_J8sSDA87HNadlv-AkWVwu/view', soon: false },
-  { name: 'Ulises II',  address: 'Salta 714',      area: 'La Perla', image: './ulises-2.webp', openImage: './ulises-2-abierto.webp', imageAlt: 'Render de la fachada de Ulises II',  brochure: 'https://drive.google.com/file/d/16AvU-sjidWsPaB0AvP2pYNmXaNJPGawL/view', soon: false },
-  { name: 'Ulises III', address: 'España 1041',    area: 'La Perla', image: './ulises-3.webp', openImage: './ulises-3-abierto.webp', imageAlt: 'Render de la fachada de Ulises III', brochure: 'https://drive.google.com/file/d/1vK_0-EP9VOKW34vcC0ZmXYmcmtJr04Dr/view', soon: false },
+  { name: 'Ulises II',  address: 'Salta 714',      area: 'La Perla', image: './ulises-2.webp', openImage: './ulises-3-abierto.webp', imageAlt: 'Render de la fachada de Ulises II',  brochure: 'https://drive.google.com/file/d/16AvU-sjidWsPaB0AvP2pYNmXaNJPGawL/view', soon: false },
+  { name: 'Ulises III', address: 'España 1041',    area: 'La Perla', image: './ulises-3.webp', openImage: './ulises-2-abierto.webp', imageAlt: 'Render de la fachada de Ulises III', brochure: 'https://drive.google.com/file/d/1vK_0-EP9VOKW34vcC0ZmXYmcmtJr04Dr/view', soon: false },
   { name: 'Ulises IV',  address: 'Entre Ríos 2641', area: 'Chauvin', image: './ulises-4.webp', openImage: './ulises-4-abierto.webp', imageAlt: 'Render de la fachada de Ulises IV',  brochure: 'https://drive.google.com/file/d/1Yri5knhGsn-CULjtU7SYT-980JMXwAtZ/view', soon: true },
 ];
 projects.forEach(p => { p.location = `${p.address} · Mar del Plata`; });
