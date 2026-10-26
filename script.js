@@ -47,7 +47,15 @@ function openProjectDialog(project) {
   dialogProject = project;
   const i = projects.indexOf(project);
   document.querySelector('.dialog-image').hidden = false;
-  document.querySelector('#dialog-img').src = project.openImage || project.image;
+  // Evita que se vea la imagen del proyecto anterior mientras carga la nueva.
+  const dialogImg = document.querySelector('#dialog-img');
+  const nextSrc = project.openImage || project.image;
+  dialogImg.style.transition = 'none';
+  dialogImg.style.opacity = '0';
+  dialogImg.onload = () => { dialogImg.style.transition = 'opacity .35s ease'; dialogImg.style.opacity = '1'; };
+  dialogImg.removeAttribute('src');
+  dialogImg.src = nextSrc;
+  if (dialogImg.complete && dialogImg.naturalWidth) dialogImg.onload();
   document.querySelector('#dialog-img').alt = project.imageAlt;
   document.querySelector('#dialog-status').textContent = project.soon ? `${T().dev.status} · ${T().dev.soon}` : T().dev.status;
   document.querySelector('#dialog-title').textContent = project.name;
