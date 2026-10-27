@@ -385,6 +385,7 @@ function startGalleryVideo(project) {
   const has = !!project.video;
   galleryVideo.hidden = !has;
   gallerySound.hidden = !has;
+  gallery.classList.toggle('has-video', has);
   galleryPhoto.hidden = has || !project.photos.length;
   if (!has) { galleryVideo.pause(); galleryVideo.removeAttribute('src'); showLoader(false); return; }
   galleryEmpty.hidden = true;

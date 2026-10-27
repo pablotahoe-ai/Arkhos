@@ -55,3 +55,21 @@
 .manifesto-screen{min-height:0!important;display:block!important;padding:48px 0 72px!important}
 .manifesto-screen .manifesto{padding-top:0!important}
 }
+
+/* 02 obras: celular vertical → video entero (16:9) arriba, textos y botones abajo, aviso de girar */
+.gl-rotate{display:none}
+@media(max-width:720px) and (orientation:portrait){
+.delivered-gallery__surface{background:#1f272e}
+.delivered-gallery__video,.delivered-gallery__photo{position:absolute;left:0;right:0;top:calc(50% - 56.25vw - 70px);width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;filter:none}
+.delivered-gallery__shade{display:none}
+.delivered-gallery__bottom{top:50%;bottom:auto;left:18px;right:18px}
+.delivered-gallery__bottom h2{font-size:44px}
+.delivered-gallery__actions{display:flex;justify-content:flex-start;gap:12px;margin-top:22px}
+.gl-return{width:250px;max-width:calc(100% - 60px)}
+.gl-loader{top:calc(50% - 70px)}
+.delivered-gallery__empty{bottom:50%;padding-top:60px}
+.delivered-gallery__empty span{font-size:150px}
+.has-video .gl-rotate{display:flex;align-items:center;gap:10px;margin:22px 0 0;font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.gl-rotate svg{width:26px;height:26px;flex:none;color:var(--gold);animation:gl-rotate 2.6s ease-in-out infinite}
+@keyframes gl-rotate{0%,25%{transform:rotate(0)}45%,75%{transform:rotate(-90deg)}95%,100%{transform:rotate(0)}}
+}
