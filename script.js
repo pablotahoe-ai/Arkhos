@@ -1203,3 +1203,11 @@ document.querySelectorAll('.main-nav a[href^="#"], .footer-inner a[href^="#"]').
 
 window.addEventListener('resize', () => { snapStops = []; });
 window.addEventListener('load', buildSnapStops);
+
+// Versión publicada (sale del número ?v= de los archivos): se muestra abajo de todo.
+(() => {
+  const el = document.querySelector('#site-version');
+  const tag = document.querySelector('script[src*="script.js?v="]');
+  const v = tag ? tag.getAttribute('src').split('?v=')[1] : '';
+  if (el && v) el.textContent = `Versión ${v}`;
+})();

@@ -212,3 +212,4 @@ html{scroll-snap-type:none!important;scroll-behavior:auto!important}
 @keyframes gl-spin{to{transform:rotate(360deg)}}
 .delivered-gallery__empty p{max-width:min(520px,82vw);margin:0 auto;text-align:center;font-family:var(--display);font-size:clamp(20px,2vw,28px);line-height:1.35;letter-spacing:0;text-transform:none;color:#e6e0d2}
 .dialog-address{text-decoration:none;width:fit-content}.dialog-address:hover{color:var(--ink)}
+.site-version{margin:0;padding:0 0 14px;text-align:center;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35)}
