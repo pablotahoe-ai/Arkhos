@@ -31,7 +31,7 @@ const delivered = [
   { name: 'Lipari Libertad', photos: ['libertad-1.webp', 'libertad-2.webp', 'libertad-3.webp'], video: 'obra-libertad.mp4', poster: 'obra-libertad.webp', address: '' },
   { name: 'Lipari La Rioja', photos: ['rioja-1.webp', 'rioja-2.webp', 'rioja-3.webp'], video: 'obra-rioja.mp4', poster: 'obra-rioja.webp', address: '' },
   { name: 'Lipari Perla', photos: ['perla-1.webp', 'perla-2.webp', 'perla-3.webp'], video: 'obra-perla.mp4', poster: 'obra-perla.webp', address: '' },
-  { name: 'KIRON', photos: [] },
+  { name: 'KIRON', photos: ['obra-kiron.webp'], video: 'obra-kiron.mp4', poster: 'obra-kiron.webp', address: '' },
 ];
 
 const values = I18N.es.about.values.map((v, i) => ({ index: i }));
